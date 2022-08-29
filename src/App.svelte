@@ -1,16 +1,4 @@
 <script>
-  // DayJS functionality
-  import {} from '../node_modules/dayjs/dayjs.min.js';
-  import {} from '../node_modules/dayjs/plugin/customParseFormat.js';
-  import {} from "../node_modules/dayjs/plugin/utc.js";
-  import {} from '../node_modules/dayjs/plugin/advancedFormat';
-  dayjs.extend(window.dayjs_plugin_customParseFormat);
-  dayjs.extend(window.dayjs_plugin_utc);
-  dayjs.extend(window.dayjs_plugin_advancedFormat);
-
-  // API keys
-  import { openWeather, visualCrossing } from './keys.json';
-
   // Components
   import PostView from './lib/PostView.svelte'
   import PreView from './lib/PreView.svelte'
@@ -34,7 +22,8 @@
     sunrise: true,
     sunset: false,
     cloudCover: false,
-    humidity: false
+    humidity: false,
+    icon: true
   }
   $: activeOptionsArr = Object
     .entries(options)
@@ -49,15 +38,6 @@
   const toggleOptions = () => {
     optionsView = !optionsView;
   }
-  let postParsedWeather;
-  const handlePostWeatherDispatch = (event) => {
-    console.log('event');
-    console.log(event);
-    postParsedWeather = event.detail;
-  }
-
-
-
 
 </script>
 
@@ -77,7 +57,6 @@
   {#if viewingPost}
   <PostView 
     activeOptionsArr={activeOptionsArr}
-    on:parsedWeatherDispatch={handlePostWeatherDispatch}
   />
   {:else}
   <PreView />
@@ -134,14 +113,6 @@
       <label for="windspeed">Windspeed</label>
     </div>
     <div class="option-item">
-      <input type="checkbox" name="sunrise" id="sunrise" bind:checked={options.sunrise}>
-      <label for="sunrise">Sunrise</label>
-    </div>
-    <div class="option-item">
-      <input type="checkbox" name="sunset" id="sunset" bind:checked={options.sunset}>
-      <label for="sunset">Sunset</label>
-    </div>
-    <div class="option-item">
       <input type="checkbox" name="cloudCover" id="cloudCover" bind:checked={options.cloudCover}>
       <label for="cloudCover">Cloud Cover (%)</label>
     </div>
@@ -149,6 +120,15 @@
       <input type="checkbox" name="humidity" id="humidity" bind:checked={options.humidity}>
       <label for="humidity">Humidity (%)</label>
     </div>
+    <div class="option-item">
+      <input type="checkbox" name="sunrise" id="sunrise" bind:checked={options.sunrise}>
+      <label for="sunrise">Sunrise</label>
+    </div>
+    <div class="option-item">
+      <input type="checkbox" name="sunset" id="sunset" bind:checked={options.sunset}>
+      <label for="sunset">Sunset</label>
+    </div>
+
     <!-- <ul style="color: gray; font-size: small">
       <li>Condition description - show icon</li>
       <li>Temperature</li>
@@ -245,7 +225,7 @@
   }
   .results-preview {
     margin: auto;
-    height: 220px;
+    min-height: 220px;
     min-width: 200px;
     text-align: center;
     background-color: #F3F8FB;

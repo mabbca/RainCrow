@@ -48,7 +48,7 @@
       copyButtonText = "Browser do not support Clipboard API";
       copyButtonDisabled = true;
     }
-  }
+  } 
 
   // State
   let checklistId;
@@ -58,8 +58,8 @@
 
   // Weather Variables
   let weatherResults = {
-    start: {},
-    end: {}
+    start: null,
+    end: null
   }
 
   let times = {
