@@ -1,5 +1,4 @@
 <script>
-  import { resultsShow } from '../store';
 
 </script>
 

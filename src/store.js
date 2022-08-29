@@ -1,38 +1,10 @@
 import { writable } from 'svelte/store';
 
-export let resultsShow = writable(false);
 
-export let checklistId = writable('');
+export let postParsedWeather = writable({});
 
-export let parsedWeather = writable({
-    conditions: {
-        show: true,
-        display: ''
-    },
-    temperature: {
-        show: true,
-        display: ''
-    },
-    windspeed: {
-        show: true,
-        display: ''
-    },
-    sunrise: {
-        show: true,
-        display: ''
-    },
-    sunset: {
-        show: true,
-        display: ''
-    },
-    cloudCover: {
-        show: false,
-        display: ''
-    },
-    humidity: {
-        show: false,
-        display: ''
-    }
-  });
+export let postParsedWeatherArr = writable([]);
 
-export let parsedWeatherArr = writable([]);
+export let postResultsShow = writable(false);
+
+export let postIsLoading = writable(false);

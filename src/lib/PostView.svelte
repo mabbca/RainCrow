@@ -1,25 +1,43 @@
 <script>
-  import { resultsShow, checklistId, parsedWeatherArr } from '../store';
-  
-  export let getWeatherHandler;
-  export let isLoading;
-  export let checklistInfo;
+  // Props
+  export let activeOptionsArr;
 
-  let results;
+  //Stores
+  import { 
+    postParsedWeather, 
+    postParsedWeatherArr,
+    postResultsShow,
+    postIsLoading
+  } from '../store';
+
+  // Weather Functions
+  import { 
+    parseWeather, 
+    getWeather, 
+    getUnixTimes, 
+    getTimezoneOffset, 
+    getChecklistInfo, 
+  } from '../weatherFunctions';
+
+  //Clipboard stuff, move elsewhere
+  let weatherDisplay;
   let copyButtonText = 'Copy to clipboard'
   let copyButtonDisabled = false;
-  $: if(isLoading) {
+  $: if($postIsLoading) {
     copyButtonDisabled = false;
     copyButtonText = 'Copy to clipboard'
   }
-
   const copyToClipboard = () => {
-    let text = results.innerText;
+    let text = weatherDisplay.innerText;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(
         function () {
           copyButtonText = "Copied!";
           copyButtonDisabled = true;
+          setTimeout(()=> {
+            copyButtonText="Copy to clipboard"
+            copyButtonDisabled = false;
+          }, 3000);
         },
         function (err) {
           copyButtonText = "Error!";
@@ -32,6 +50,41 @@
     }
   }
 
+  // State
+  let checklistId;
+
+  let checklistInfo = {};
+  $: $postParsedWeatherArr = Object.entries($postParsedWeather);
+
+  // Weather Variables
+  let weatherResults = {
+    start: {},
+    end: {}
+  }
+
+  let times = {
+    offset: 0,
+    start: {
+      dayjs: null,
+      unix: ''
+    },
+    end: {
+      dayjs: null,
+      unix: ''
+    }
+  };
+
+  async function getWeatherHandler() {
+      $postIsLoading = true;
+      [checklistInfo, times] = await getChecklistInfo(checklistId);
+      times = await getTimezoneOffset(times, checklistInfo);
+      times  = getUnixTimes(times, checklistInfo);
+      weatherResults = await getWeather(times, checklistInfo, weatherResults);
+      $postResultsShow = true;
+      $postIsLoading = false;
+      $postParsedWeather = parseWeather(times, weatherResults, $postParsedWeather);
+  }
+
 </script>
 
 <div class="ui-container">
@@ -42,8 +95,7 @@
         name="checklistID"
         id="checklistID"
         class="full-width"
-        bind:value={$checklistId}
-        on:focus="{ () => $checklistId = '' }"
+        bind:value={checklistId}
       />
     </div>
     <button id="submitButton" on:click={getWeatherHandler}>
@@ -59,20 +111,28 @@
     <div class="response-field full-width">
       <div>
         <div>
-          {#if !$resultsShow && isLoading===false}
+          {#if !$postResultsShow && $postIsLoading===false}
+
           For most accurate results, wait at least one hour after you've
           stopped birding before using this tool.
-          {:else if isLoading === true}
+
+          {:else if $postIsLoading === true}
+
           Loading...
+
           {:else}
-            <div bind:this={results}>
-              {#each $parsedWeatherArr as data}
-                {#if data[1].show}<p>{#if data[1].display}{data[1].display}{:else}None returned{/if}</p>{/if}
+
+            <div bind:this={weatherDisplay}>
+              {#each $postParsedWeatherArr as [key, entry]}
+                {#if activeOptionsArr.includes(key)}
+                 <p>{#if entry}{entry}{:else}None returned{/if}</p>
+                {/if}
               {/each}
             </div>
+
           {/if}
         </div>
-        {#if $resultsShow && isLoading === false}
+        {#if $postResultsShow && $postIsLoading === false}
         <button class="copy-button" on:click={copyToClipboard} class:disabled={copyButtonDisabled}>{copyButtonText}</button>
         {/if}
       </div>
