@@ -38,9 +38,7 @@
           For most accurate results, wait at least one hour after you've
           stopped birding before using this tool.
       </div>
-      {#if $resultsShow}
       <button class="copy-button">Copy to clipboard</button>
-      {/if}
     </div>
   </div>
 
