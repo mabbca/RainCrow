@@ -1,9 +1,12 @@
 <script>
+  // Dayjs
+  import dayjs from 'dayjs';
+
   // Props
   export let activeOptionsArr;
 
   //Stores
-  import { postParsedWeather, postParsedWeatherArr, postResultsShow, postIsLoading, postStatus } from '../store';
+  import { postParsedWeather, postParsedWeatherArr, postStatus, appName } from '../store';
 
   // Weather Functions
   import { parseWeather, getWeather, getUnixTimes, getTimezoneOffset, getChecklistInfo } from '../weatherFunctions';
@@ -12,7 +15,7 @@
   let weatherCopy = '';
   let copyButtonText = 'Copy to clipboard'
   let copyButtonDisabled = false;
-  $: if($postIsLoading) {
+  $: if($postStatus === 'loading') {
     copyButtonDisabled = false;
     copyButtonText = 'Copy to clipboard'
   }
@@ -40,7 +43,7 @@
 
   // State
 
-  let checklistId;
+  let checklistId = '';
   let checklistInfo = {};
   $: {
     $postParsedWeatherArr = Object.entries($postParsedWeather);
@@ -53,9 +56,9 @@
   }
 
   let errorTextOptions = [
-    "That doesn't seem like a real Checklist ID...",
+    // "That doesn't seem like a real Checklist ID...",
     "Please enter a valid Checklist ID",
-    "Try again there, bud. eBird didn't like that input.",
+    // "Try again there, bud. eBird didn't like that input.",
   ]
   let errorText;
 
@@ -81,15 +84,32 @@
       $postStatus = 'loading';
       checklistInfo = {};
       [checklistInfo, times] = await getChecklistInfo(checklistId);
-        // Error Handling
+      // eBird Error Handling
         if (checklistInfo.ok === false) {
           errorText = errorTextOptions[(Math.floor(Math.random() * errorTextOptions.length))];
           $postStatus = 'error';
           return;
         }
-      times = await getTimezoneOffset(times, checklistInfo);
-      times  = getUnixTimes(times, checklistInfo);
-      weatherResults = await getWeather(times, checklistInfo, weatherResults);
+      // Historical Checklists Error
+        if(!checklistInfo.obsTimeValid) {
+          $postStatus = 'error';
+          errorText = "Historical checklists not supported. Need valid time to get weather data.";
+          return;
+        }
+        if(dayjs(times.start.localTime).get('year') < 1979) {
+          $postStatus = 'error';
+          errorText="Dates before Jan 1, 1979 not supported by OpenWeather API."
+          return;
+        }
+      try {
+        times = await getTimezoneOffset(times, checklistInfo);
+        times  = getUnixTimes(times);
+        weatherResults = await getWeather(times, checklistInfo, weatherResults);
+      } catch(error) {
+        $postStatus = 'error';
+        errorText = error;
+        return;
+      }
       $postStatus = 'show'
       $postParsedWeather = parseWeather(times, weatherResults, $postParsedWeather);
   }
@@ -98,12 +118,14 @@
       getWeatherHandler();
     }
   }
+  let checklistRegex = /^$|(S\d{7})/;
+  $: isChecklistId = checklistId.match(checklistRegex);
 
 </script>
 
 <div class="ui-container">
     <div id="checklistInputForm" class="full-width top-ui">
-      <label for="checklistID">Input Checklist ID:</label><br />
+      <label for="checklistID">Checklist ID:</label><br />
       <input
         type="text"
         name="checklistID"
@@ -112,9 +134,11 @@
         bind:value={checklistId}
         on:keyup={event => inputKeyup(event)}
         on:focus={()=> checklistId = ''}
+        class:error={!isChecklistId}
       />
     </div>
-    <button id="submitButton" on:click={getWeatherHandler}>
+    <!-- add disable when !isChecklistId and when nothing is entered -->
+    <button id="submitButton" on:click={getWeatherHandler}> 
       Get Weather
     </button>
 
@@ -128,10 +152,9 @@
       <div class="weather-center">
         <div>
           {#if $postStatus === 'init'}
-            For most accurate results, wait at least one hour after you've
-            stopped birding before using this tool.
+            <p>Enter an eBird Checklist ID and click "Get Weather"</p>
           {:else if $postStatus === 'loading'}
-            Loading...
+            <div class="loading-text">Loading...</div>
           {:else if $postStatus === 'error'}
             {errorText}
           {:else if $postStatus === 'show'}
@@ -168,6 +191,12 @@
     .checklist-info {
       font-size: small;
       margin-top: 30px;
+    }
+    .loading-text {
+      transform: rotate(0);
+    }
+    .error {
+      border: 1px red solid;
     }
 
 </style>

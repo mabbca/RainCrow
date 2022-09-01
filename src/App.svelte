@@ -9,7 +9,7 @@
   import dayjs from 'dayjs';
 
   // Stores
-  import { postParsedWeatherArr, postStatus, aboutView } from './store.js';
+  import { postParsedWeatherArr, postStatus, aboutView, preParsedWeatherArr, preStatus, appName } from './store.js';
 
   // State
   let viewingPost = true;
@@ -43,26 +43,25 @@
   }
 
 </script>
+<!-- --------START OF APP-------- -->
 
 <div class="vertical-grid-container" class:blur={optionsView || $aboutView}>
   <div class="title">
-    <h1>eBird Weather</h1>
+    <h1>{appName}</h1>
   </div>
   <nav>
     <div class="nav-item post-submit" on:click={()=> viewingPost = true} class:active="{viewingPost}">
       <p>Submitted</p>
     </div>
-    <div class="nav-item pre-submit" class:active="{!viewingPost}">
+    <div class="nav-item pre-submit" on:click={()=> viewingPost = false} class:active="{!viewingPost}">
       <p>Pre-Submit</p>
     </div>
   </nav>
 
   {#if viewingPost}
-  <PostView 
-    activeOptionsArr={activeOptionsArr}
-  />
+  <PostView activeOptionsArr={activeOptionsArr} />
   {:else}
-  <PreView />
+  <PreView activeOptionsArr={activeOptionsArr}/>
   {/if}
 
 <!-- --------FOOTER-------- -->
@@ -70,7 +69,7 @@
     <div on:click={toggleAbout}>
       <!-- <p>Weather Data provided by <a href="#">OpenWeather</a></p>
       <p>Created by <a href="#">Parker Davis</a></p> -->
-      <a><p>About</p></a>
+      <button class="about-button">About</button>
     </div>
     <div>
       <button on:click={toggleOptions}>Options</button>
@@ -80,7 +79,7 @@
 <!-- --------ABOUT MENU-------- -->
 
 {#if $aboutView}
-<AboutView />
+<AboutView appName={appName}/>
 {/if}
 
 <!-- --------OPTIONS MENU-------- -->
@@ -88,10 +87,9 @@
 <div class="options-container">
   <div class="menu-exit" on:click={toggleOptions}>🆇</div>
   <div class="options-scroll">
-    {#if $postStatus === 'show'}
+    {#if viewingPost && $postStatus === 'show'}
     <div class="results-preview weatherDisp">
       <h3>Preview:</h3>
-      {#if viewingPost}
         {#each $postParsedWeatherArr as [key, entry]}
           {#if activeOptionsArr.includes(key)}
             {#if entry && (key === 'icon' || key === 'attr')}
@@ -103,7 +101,21 @@
             {/if}
           {/if}
         {/each}
-      {/if}
+    </div>
+    {:else if !viewingPost && $preStatus === 'show'}
+    <div class="results-preview weatherDisp">
+      <h3>Preview:</h3>
+        {#each $preParsedWeatherArr as [key, entry]}
+          {#if activeOptionsArr.includes(key)}
+            {#if entry && (key === 'icon' || key === 'attr')}
+              {@html entry}
+            {:else if entry && key !== 'icon'}
+              <p>{entry}</p>
+            {:else}
+              <p>None returned</p>
+            {/if}
+          {/if}
+        {/each}
     </div>
     {/if}
 
@@ -146,7 +158,7 @@
       </div>
       <div class="option-item">
         <input type="checkbox" name="attr" id="attr" bind:checked={options.attr}>
-        <label for="attr">Include attribution</label>
+        <label for="attr">Include Link</label>
       </div>
     </div>
   </div>
@@ -239,9 +251,6 @@
     overflow: scroll;
     width: 100%;
   }
-  .options-bottom {
-    /* border-top: 1px black solid; */
-  }
   .done-button {
     width: 200px;
   }
@@ -260,9 +269,18 @@
   }
 
   .results-preview {
+    font-size: 0.75rem;
     margin: auto;
     min-height: 220px;
     width: fit-content;
+  }
+  .about-button {
+    border: none;
+    background-color: white;
+    color: #646cff;
+  }
+  .about-button:hover {
+    background-color: inherit;
   }
 
 </style>

@@ -1,36 +1,51 @@
 <script>
     import { aboutView } from "../store";
+    export let appName;
 </script>
 
 <div class="about-container">
     <div class="menu-exit" on:click={()=> $aboutView = false}>🆇</div>
-    <h2>Welcome to eBird Weather! 👋</h2>
-    <p>Created by <a>Parker Davis</a></p>
-    <section>
-        <p>This is an app created for the quick retrieval of historical weather observations for eBird checklists</p>
-        <p><a href="https://ebird.org/about">eBird</a> is a global citizen science bird database where users submit bird checklists for a time and place to contibute to a shared understanding of the worlds avian biodiversity.</p>
-    </section>
-    <section>
-        <p>All weather data is provided by the <a href="https://openweathermap.org/">OpenWeather API</a></p>
-        <p>There are limitations to the accuracy of any weather API. If you are gathering weather data for a location that is near a weather station it should work great. </p>
-        <p>If you are in more remote areas, like deep in remote canyons or high on a mountain peak, the weather at that location is likely different than the closest weather station and therefore will not completely match up with the results provided here. </p>
-    </section>
-    <section>
-        <p>If you have any comments, issues, or suggestions feel free to <a href="mailto:parkied@gmail.com">email me</a>!</p>
-    </section>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero quibusdam placeat delectus quam facilis maiores magni, non dolorum, qui, earum dolores modi ipsa. Nisi, dignissimos eum modi numquam ipsam necessitatibus.</p>
+    <h2>Welcome to {appName}! 🌦</h2>
+    <p class="attr">Created by <a href="#" target="_blank">Parker Davis</a></p>
 
+    <p>This web app was created for the quick retrieval of historical weather observations for eBird checklists.</p>
+    <p><a href="https://ebird.org/about" target="_blank">eBird</a> is a global citizen science database where users submit checklists to contibute to a shared understanding of the world's bird life.</p>
+    <section>
+        <h3>Submitted</h3>
+        <p>Use for checklists that have already been submitted to eBird. Just enter the Checklist ID and click <span>Get Weather</span>. You can find the Checklist ID at the top of the checklist page ("S73259373").</p>
+    </section>
+    <section>
+        <h3>Pre-submit</h3>
+        <p>Use before a checklist is submitted. This is especially useful for including weather in shared checklists.</p>
+        <details>
+            <summary>
+                Locate Button not working?
+            </summary>
+            <ul>
+                <li>Check that location services are enabled.</li>
+                <li>Make sure you allow the app to access your location.</li>
+                <li>If clicking <span>Locate</span> does not prompt you to allow location access, try toggling the location preference off then on again.</li>
+                <li>For iPhone the setting is found under Settings > Privacy > Location Services > (Browser of Choice) > Allow Location Access</li>
+            </ul>
+        </details>
+        
+    </section>
+    <section>
+        <h3>Weather Data</h3>
+        <p>All weather data is provided by the <a href="https://openweathermap.org/" target="_blank">OpenWeather API.</a></p>
+        <p>There are limitations to the accuracy of any weather API. If you are gathering weather data for a location that is near a weather station it should work just fine. If the location is a remote area with unique microclimate (deep canyons, mountain peaks, open ocean etc.) results from the nearest weather station will not be <em>as</em> accurate. Use at your own discretion!</p>
+    </section>
+    <section>
+        <h3>Options</h3>
+        <p>The options menu allows you to select the weather data you want to include. Some data will be more or less useful depending on the location.</p>
+        <p><strong>Icons</strong> includes HTML to embed OpenWeather icons in your eBird checklist comments.</p>
+        <p><strong>Include Link</strong> includes a link to let people know where you got this super cool weather data.</p>
+    </section>
+    <section>
+        <p>If you have any comments, suggestions, bugs, feel free to <a href="mailto:parkied@gmail.com">email me</a>!</p>
+    </section>
+
+ 
     <div class="center">
         <button on:click={()=> $aboutView = false}>CLOSE</button>
     </div>
@@ -42,7 +57,7 @@
         position: fixed;
         width: 500px;
         max-width: 95%;
-        max-height: 95vh;
+        max-height: 88vh;
         top: 50%;
         left: 50%;
         transform:translate(-50%, -50%);
@@ -57,10 +72,27 @@
         width: 200px;
     }
     section {
-        margin-top: 1rem;
-        border-top: 1px solid black;
+        margin-top: 2rem;
+        /* border-top: 1px solid black; */
     }
-    p {
-        margin-top: 0.5rem;
+    section p:first-of-type {
+        margin-top: 0;
+    }
+    p,
+    details {
+        margin-top: 1rem;
+    }
+    .attr {
+        margin-top: 0;
+        font-size: 0.8rem;
+    }
+    summary {
+        cursor: pointer;
+    }
+    span {
+        background: #409100;
+        color: white;
+        padding: 2px 5px;
+        border-radius: 5px;
     }
 </style>
