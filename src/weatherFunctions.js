@@ -135,7 +135,7 @@ export function parseWeather(times, weatherResults, parsedWeather) {
 export async function getWeather(times, locationObj, weatherResults) {
   // console.log("Start time weather query for " + times.start.utcTime.local().format("YYYY-MM-DD h:mma Z"));
   weatherResults.start = await queryOpenWeather(times.start.utcTime.format("X"), locationObj.lat, locationObj.lon);
-  if (times.end.utcTime) {
+  if (times.end.utcTime && times.end.utcTime.format("X") != times.start.utcTime.format("X")) {
     // console.log("End time weather query for " + times.end.utcTime.local().format("YYYY-MM-DD h:mma Z"));
     weatherResults.end = await queryOpenWeather(times.end.utcTime.format("X"), locationObj.lat, locationObj.lon);
   }

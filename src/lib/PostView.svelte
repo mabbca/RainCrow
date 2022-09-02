@@ -118,7 +118,7 @@
       getWeatherHandler();
     }
   }
-  let checklistRegex = /^$|(S\d{7})/;
+  let checklistRegex = /(S\d{7})/;
   $: isChecklistId = checklistId.match(checklistRegex);
 
 </script>
@@ -134,11 +134,15 @@
         bind:value={checklistId}
         on:keyup={event => inputKeyup(event)}
         on:focus={()=> checklistId = ''}
-        class:error={!isChecklistId}
+        class:error={!isChecklistId && checklistId.length > 0}
       />
     </div>
     <!-- add disable when !isChecklistId and when nothing is entered -->
-    <button id="submitButton" on:click={getWeatherHandler}> 
+    <button 
+      id="submitButton" 
+      on:click={getWeatherHandler}
+      disabled={!isChecklistId}
+    > 
       Get Weather
     </button>
 

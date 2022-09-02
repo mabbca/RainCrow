@@ -58,11 +58,12 @@ button {
   }
 button:disabled {
   background-color: #A2A2A2;
+  cursor: default;
 }
 button {
   grid-column: button-start / button-end;
 }
-button:hover:not(.copy-button) {
+button:enabled:hover:not(.copy-button) {
   background-color: rgba(63, 145, 0, 0.9);
 }
 .full-width {

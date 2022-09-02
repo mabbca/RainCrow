@@ -91,8 +91,8 @@
   // latLon Parser 
   const getLatLon = () => {
     let commaIndex = latLon.indexOf(',');
-    location.lat = latLon.slice(0, commaIndex);
-    location.lon = latLon.slice(commaIndex + 1);
+    location.lat = latLon.slice(0, commaIndex).trim();
+    location.lon = latLon.slice(commaIndex + 1).trim();
   }
 
   // Location Obj
@@ -118,8 +118,9 @@
     end: null
   }
 
+  // Submit & Error Handling
   let errorText;
-  // Submit
+
   const handleGetWeather = async() => {
     $preStatus = 'loading';
     getLatLon();
@@ -144,6 +145,57 @@
     }
   }
 
+
+  // Form Validation
+  const latLonRegex = /\s*-?\d+\.\d+,\s*-?\d+\.\d+\s*/;
+  const dateRegex = /\d{4}-\d{1,2}-\d{1,2}/;
+  const startTimeRegex = /\d{1,2}:\d{1,2}/;
+  $: formIsValid = (
+    latLon.match(latLonRegex) &&
+    date.match(dateRegex) &&
+    startTime.match(startTimeRegex) &&
+    typeof(duration) === 'number' &&
+    duration >= 0
+    );
+
+  let latlonError = false;
+  $: if (latLon.match(latLonRegex) && latLon.length > 0) {
+    latlonError = false;
+  }
+  const latlonFocusout = () => {
+    if(!latLon.match(latLonRegex)) {
+      latlonError=true;
+    }
+  }
+  let dateError = false;
+  $: if (!date.match(dateRegex) && date.length > 0) {
+    dateError = false;
+  }
+  const dateFocusout = () => {
+    if(!date.match(dateRegex)) {
+      dateError=true;
+    }
+  }
+  let startTimeError = false;
+  $: if (!startTime.match(startTimeRegex) && startTime.length > 0) {
+    startTimeError = false;
+  }
+  const startTimeFocusout = () => {
+    if(!startTime.match(startTimeRegex)) {
+      startTimeError=true;
+    }
+  }
+  let durationError = false;
+  $: if (typeof(duration) === 'number' && duration !== undefined) {
+    durationError = false;
+  }
+  const durationFocusout = () => {
+    if(typeof(duration) !== 'number') {
+      durationError=true;
+    }
+  }
+
+  // class:error={!latLon.match(latLonRegex) && latLon.length > 0}
 </script>
 
 
@@ -153,8 +205,16 @@
             Location <small>(Latitude, Longitude)</small>
         </label>
       <br />
-      <input type="text" name="latlon" bind:value={latLon}/>
-      <br />
+      <input 
+        type="text" 
+        name="latlon" 
+        bind:value={latLon} 
+        on:focusout={latlonFocusout}
+        class:error={latlonError}
+        />
+      {#if latlonError}
+      <span class="error-message">Please enter valid decimal degree coordinates.</span>
+      {/if}
     </div>
 
     <button class="preView-button" on:click={handleLocate}>{locateButtonText}</button>
@@ -162,12 +222,32 @@
     <div class="date-input full-width">
       <label for="date">Date</label>
       <br />
-      <input type="date" name="date" id="date" bind:value={date}/>
+      <input 
+        type="date" 
+        name="date" 
+        id="date" 
+        bind:value={date}
+        on:focusout={dateFocusout}
+        class:error={dateError}
+        />
+        {#if dateError}
+        <span class="error-message">Enter valid date in format: YYYY-MM-DD</span>
+        {/if}
     </div>
     <div class="left">
       <label for="startTime">Start Time</label>
       <br />
-      <input type="time" name="startTime" id="startTime" bind:value={startTime}/>
+      <input 
+        type="time" 
+        name="startTime" 
+        id="startTime" 
+        bind:value={startTime}
+        on:focusout={startTimeFocusout}
+        class:error={startTimeError}
+        />
+        {#if startTimeError}
+        <span class="error-message">Enter valid start time in 24hr format: HH:MM</span>
+        {/if}
     </div>
     <div class="right">
       <label for="duration">Duration <small>(minutes)</small></label>
@@ -179,10 +259,15 @@
         min="0" 
         bind:value={duration}
         on:keyup={event => inputKeyup(event)}
+        on:focusout={durationFocusout}
+        class:error={durationError}
         />
+        {#if durationError}
+        <span class="error-message">Enter valid number of minutes greater than or equal to 0</span>
+        {/if}
     </div>
 
-    <button class="preView-button" type="submit" on:click={handleGetWeather}>Get Weather</button>
+    <button class="preView-button" type="submit" on:click={handleGetWeather} disabled={!formIsValid}>Get Weather</button>
 
     <div class="full-width response-field weatherDisp">
       <div class="weather-center">
@@ -234,5 +319,16 @@
     }
     button[type="submit"] {
       margin: 1rem 0;
+    }
+    .error {
+      border: 1px red solid;
+    }
+    .error-message {
+      font-size: small;
+      color: red;
+      margin: 0; 
+      padding: 0;
+      position: relative;
+      bottom: 10px;
     }
   </style>
