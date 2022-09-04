@@ -241,7 +241,7 @@ export async function getChecklistInfo(checklistId) {
   };
 }
 export async function queryOpenWeather(unixTime, lat, lon) {
-  //submit OpenWeather query at time and checklist location
+  //submit OpenWeather query at time and location
   const baseUrl = 'https://api.openweathermap.org/data/3.0/onecall/timemachine';
   const queries = `?lat=${lat}&lon=${lon}&dt=${unixTime}&appid=${openWeather}&units=imperial`;
   // const queries = `?lat=${lat}&lon=${lon}&dt=error&appid=${openWeather}&units=imperial`; // trigger errors for debug
