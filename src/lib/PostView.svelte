@@ -91,7 +91,7 @@
           return;
         }
       // Historical Checklists Error
-        if(!checklistInfo.obsTimeValid) {
+        if(checklistInfo.obsTimeValid === false) {
           $postStatus = 'error';
           errorText = "Historical checklists not supported. Need valid time to get weather data.";
           return;
@@ -114,7 +114,7 @@
       $postParsedWeather = parseWeather(times, weatherResults, $postParsedWeather);
   }
   const inputKeyup = event => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && isChecklistId) {
       getWeatherHandler();
     }
   }

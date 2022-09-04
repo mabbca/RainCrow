@@ -6,7 +6,7 @@
 <div class="about-container">
     <div class="menu-exit" on:click={()=> $aboutView = false}>🆇</div>
     <h2>Welcome to {appName}! 🌦</h2>
-    <p class="attr">Created by <a href="#" target="_blank">Parker Davis</a></p>
+    <p class="attr">Created by Parker Davis</p>
 
     <p>This web app was created for the quick retrieval of historical weather observations for eBird checklists.</p>
     <p><a href="https://ebird.org/about" target="_blank">eBird</a> is a global citizen science database where users submit checklists to contibute to a shared understanding of the world's bird life.</p>
@@ -23,7 +23,7 @@
             </summary>
             <ul>
                 <li>Check that location services are enabled.</li>
-                <li>Make sure you allow the app to access your location.</li>
+                <li>Make sure you allow access to your location.</li>
                 <li>If clicking <span>Locate</span> does not prompt you to allow location access, try toggling the location preference off then on again.</li>
                 <li>For iPhone the setting is found under Settings > Privacy > Location Services > (Browser of Choice) > Allow Location Access</li>
             </ul>
@@ -38,7 +38,7 @@
     <section>
         <h3>Options</h3>
         <p>The options menu allows you to select the weather data you want to include. Some data will be more or less useful depending on the location.</p>
-        <p><strong>Icons</strong> includes HTML to embed OpenWeather icons in your eBird checklist comments.</p>
+        <p><strong>Weather Icons</strong> includes HTML to embed OpenWeather icons in your eBird checklist comments.</p>
         <p><strong>Include Link</strong> includes a link to let people know where you got this super cool weather data.</p>
     </section>
     <section>

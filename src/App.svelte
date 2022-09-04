@@ -122,7 +122,7 @@
     <div class="options-list">
       <div class="option-item">
         <input type="checkbox" name="icon" id="icon" bind:checked={options.icon}>
-        <label for="icon">Icons</label>
+        <label for="icon">Weather Icons</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="conditions" id="conditions" bind:checked={options.conditions}>
