@@ -118,7 +118,8 @@
       getWeatherHandler();
     }
   }
-  let checklistRegex = /(S\d{7})/;
+
+  let checklistRegex = /S\d{7}\d*/;
   $: isChecklistId = checklistId.match(checklistRegex);
 
 </script>

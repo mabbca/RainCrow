@@ -47,7 +47,7 @@
 
 <div class="vertical-grid-container" class:blur={optionsView || $aboutView}>
   <div class="title">
-    <h1>{appName}</h1>
+    <h1><span class="green">Rain</span>Crow</h1>
   </div>
   <nav>
     <div class="nav-item post-submit" on:click={()=> viewingPost = true} class:active="{viewingPost}">
@@ -281,6 +281,9 @@
   }
   .about-button:hover {
     background-color: inherit;
+  }
+  .green {
+    color: #409100;
   }
 
 </style>

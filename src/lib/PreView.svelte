@@ -149,7 +149,7 @@
   // Form Validation
   const latLonRegex = /\s*-?\d+\.\d+,\s*-?\d+\.\d+\s*/;
   const dateRegex = /\d{4}-\d{1,2}-\d{1,2}/;
-  const startTimeRegex = /\d{1,2}:\d{1,2}/;
+  const startTimeRegex = /\d{1,2}:\d{2}$/;
   $: formIsValid = (
     latLon.match(latLonRegex) &&
     date.match(dateRegex) &&

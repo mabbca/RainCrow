@@ -177,7 +177,10 @@ export async function getChecklistInfo(checklistId) {
     headers: myHeaders,
     redirect: 'follow'
   };
-  const checklistURL = 'https://api.ebird.org/v2/product/checklist/view/'+ checklistId;
+
+  let realChecklistId = extractChecklistId(checklistId);
+
+  const checklistURL = 'https://api.ebird.org/v2/product/checklist/view/'+ realChecklistId;
   
   //reset for each call
   let checklistInfo = {};
@@ -239,6 +242,11 @@ export async function getChecklistInfo(checklistId) {
       console.log(error);
       return [error, error];
   };
+}
+function extractChecklistId(checklistId) {
+  let checklistRegex = /S\d{7}\d*$/;
+  let extractedId = checklistId.trim().match(checklistRegex);
+  return extractedId[0];
 }
 export async function queryOpenWeather(unixTime, lat, lon) {
   //submit OpenWeather query at time and location
