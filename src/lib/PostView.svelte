@@ -153,8 +153,8 @@
       {#if checklistInfo.startTime}<p>{checklistInfo.startTime}</p>{/if}
     </div>
 
-    <div class="response-field weatherDisp full-width">
-      <div class="weather-center">
+    <div class="full-width">
+      <div class="weather-center weatherDisp">
         <div>
           {#if $postStatus === 'init'}
             <p>Enter an eBird Checklist ID and click "Get Weather"</p>

@@ -8,18 +8,19 @@
     <h2>Welcome to {appName}! 🌦</h2>
     <p class="attr">Created by Parker Davis</p>
 
-    <p>This web app was created for the quick retrieval of historical weather observations for eBird checklists.</p>
-    <p><a href="https://ebird.org/about" target="_blank">eBird</a> is a global citizen science database where users submit checklists to contibute to a shared understanding of the world's bird life.</p>
+    <p>This web app was created for the quick retrieval of historical weather observations for <a href="https://ebird.org/about" target="_blank">eBird</a> checklists.</p>
+
     <section>
         <h3>Submitted</h3>
-        <p>Use for checklists that have already been submitted to eBird. Just enter the Checklist ID and click <span>Get Weather</span>. You can find the Checklist ID at the top of the checklist page ("S73259373").</p>
+        <p>Use for checklists that have already been submitted to eBird. Just enter the Checklist ID (or the entire URL) and click <span>Get Weather</span>.</p>
     </section>
+
     <section>
-        <h3>Pre-submit</h3>
+        <h3>Pre-Submit</h3>
         <p>Use before a checklist is submitted. This is especially useful for including weather in shared checklists.</p>
         <details>
             <summary>
-                Locate Button not working?
+                <span>Locate</span> not working?
             </summary>
             <ul>
                 <li>Check that location services are enabled.</li>
@@ -28,19 +29,23 @@
                 <li>For iPhone the setting is found under Settings > Privacy > Location Services > (Browser of Choice) > Allow Location Access</li>
             </ul>
         </details>
-        
     </section>
+
+    <section>
+        <h3>Options</h3>
+        <p>The options menu allows you to select the weather data you want to include.</p>
+        <p>In order for <strong>Weather Icons</strong> and <strong>Include Link</strong> options to show up on your eBird checklist, you must include &lt;HTML tags&gt; to embed the images or create the link. You don't need to worry about doing this yourself, the code is included when you click <span class="copy">Copy to Clipboard</span>. The images and link will display normally once you submit the copied code to your checklist comments.</p>
+        <!-- <p>Click on <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img" target="_blank">&lt;img&gt;</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a" target="_blank">&lt;a&gt;</a> to learn more about these HTML tags on the Mozilla Web Documentation website.  -->
+        <!-- <p>Learn more about the OpenWeather Icons <a href="https://openweathermap.org/weather-conditions#How-to-get-icon-URL" target="_blank">here</a>.</p> -->
+    </section>
+
     <section>
         <h3>Weather Data</h3>
         <p>All weather data is provided by the <a href="https://openweathermap.org/" target="_blank">OpenWeather API.</a></p>
+        <p>Weather data is gathered for both the start and end times of a checklist and automatically displayed as a range.</p>
         <p>There are limitations to the accuracy of any weather API. If you are gathering weather data for a location that is near a weather station it should work just fine. If the location is a remote area with unique microclimate (deep canyons, mountain peaks, open ocean etc.) results from the nearest weather station will not be <em>as</em> accurate. Use at your own discretion!</p>
     </section>
-    <section>
-        <h3>Options</h3>
-        <p>The options menu allows you to select the weather data you want to include. Some data will be more or less useful depending on the location.</p>
-        <p><strong>Weather Icons</strong> includes HTML to embed OpenWeather icons in your eBird checklist comments.</p>
-        <p><strong>Include Link</strong> includes a link to let people know where you got this super cool weather data.</p>
-    </section>
+
     <section>
         <p>If you have any comments, suggestions, bugs, feel free to <a href="mailto:parkied@gmail.com">email me</a>!</p>
     </section>
@@ -92,7 +97,11 @@
     span {
         background: #409100;
         color: white;
-        padding: 2px 5px;
+        padding: 3px 6px;
         border-radius: 5px;
+    }
+    .copy {
+        background: #4A96D9;
+
     }
 </style>

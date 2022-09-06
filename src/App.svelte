@@ -41,10 +41,16 @@
   const toggleAbout = () => {
     $aboutView = !$aboutView;
   }
+  const menuEsc = (event) => {
+    if (event.key === 'Escape') {
+      optionsView = false;
+      $aboutView = false;
+    }
+  }
 
 </script>
 <!-- --------START OF APP-------- -->
-
+<svelte:window on:keydown={menuEsc}/>
 <div class="vertical-grid-container" class:blur={optionsView || $aboutView}>
   <div class="title">
     <h1><span class="green">Rain</span>Crow</h1>
@@ -221,13 +227,10 @@
   footer button:hover {
     background-color: lightgray;
   }
-  .options-container * {
-    /* border: 1px red dotted; */
-  }
   .options-container {
     background-color: white;
     position: fixed;
-    width: 500px;
+    width: 400px;
     max-width: 95%;
     max-height: 95vh;
     /* height: 100%; */
@@ -249,7 +252,7 @@
   }
   .options-scroll {
     overflow: scroll;
-    width: 100%;
+    /* width: 100%; */
   }
   .done-button {
     width: 200px;

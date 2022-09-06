@@ -95,6 +95,10 @@ button:enabled:hover:not(.copy-button) {
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  width: fit-content;
+  min-width: 300px;
+  max-width: 90%;
+  margin: auto;
 }
 .menu-exit {
   position: absolute;

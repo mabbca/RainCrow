@@ -216,8 +216,8 @@
       <span class="error-message">Please enter valid decimal degree coordinates.</span>
       {/if}
     </div>
-
-    <button class="preView-button" on:click={handleLocate}>{locateButtonText}</button>
+    
+    <button class="preView-button locate" on:click={handleLocate}>{locateButtonText}</button>
 
     <div class="date-input full-width">
       <label for="date">Date</label>
@@ -266,14 +266,16 @@
         <span class="error-message">Enter valid number of minutes greater than or equal to 0</span>
         {/if}
     </div>
-
+    
     <button class="preView-button" type="submit" on:click={handleGetWeather} disabled={!formIsValid}>Get Weather</button>
 
-    <div class="full-width response-field weatherDisp">
-      <div class="weather-center">
+    <div class="full-width">
+      <div class="weather-center weatherDisp">
         <div>
           {#if $preStatus === 'init'}
-            <p>Enter location, time, and duration and click "Get Weather"</p>
+            <!-- <p>Enter location, date, time, and duration and click "Get Weather"</p> -->
+            <!-- <br> -->
+            <p>Location services must be enabled to use "Locate" button.</p> 
           {:else if $preStatus === 'loading'}
             Loading...
           {:else if $preStatus === 'error'}
@@ -301,7 +303,7 @@
 
   <style>
     .ui-container {
-        grid-template-rows: repeat(6, auto) 1fr;
+        grid-template-rows: repeat(7, auto) 1fr;
     }
     .disabled {
       background-color: darkgray;
