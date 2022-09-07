@@ -6,7 +6,7 @@
 <div class="about-container">
     <div class="menu-exit" on:click={()=> $aboutView = false}>🆇</div>
     <h2>Welcome to {appName}! 🌦</h2>
-    <p class="attr">Created by Parker Davis</p>
+    <p class="attr">Created by <a href="https://parkerdavis.dev/" target="_blank">Parker Davis</a></p>
 
     <p>This web app was created for the quick retrieval of historical weather observations for <a href="https://ebird.org/about" target="_blank">eBird</a> checklists.</p>
 
