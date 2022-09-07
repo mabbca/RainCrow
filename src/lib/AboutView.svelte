@@ -47,7 +47,7 @@
     </section>
 
     <section>
-        <p>If you have any comments, suggestions, bugs, feel free to <a href="mailto:parkied@gmail.com">email me</a>!</p>
+        <p>If you have any comments, suggestions, bugs, feel free to email me at <a href="mailto:parker@birdsmakesound.com">parker@birdsmakesound.com</a>!</p>
     </section>
 
  
