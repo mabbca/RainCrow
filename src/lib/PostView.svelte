@@ -65,6 +65,18 @@
           } else {
             weatherCopy += value.open + '\n';
           }
+        } else if (key==='windspeed') {
+          if (windUnit === 'mph') {
+            weatherCopy += value.mph + '\n';
+          } else if (windUnit === 'ms') {
+            weatherCopy += value.ms + '\n';
+          } else if (windUnit === 'kmh') {
+            weatherCopy += value.kmh + '\n';
+          } else if (windUnit === 'description') {
+            weatherCopy += value.description + '\n';
+          } else if (windUnit === 'beaufort') {
+            weatherCopy += value.beaufort + '\n';
+          }
         } else {
           weatherCopy += value + '\n';
         }
