@@ -41,7 +41,8 @@
 
     <section>
         <h3>Weather Data</h3>
-        <p>All weather data is provided by the <a href="https://openweathermap.org/" target="_blank">OpenWeather API.</a></p>
+        <img src="src/assets/openweatherlogo-light.jpg" alt="OpenWeather Logo">
+        <p>All weather data is provided by <a href="https://openweathermap.org/" target="_blank">OpenWeather</a>.</p>
         <p>Weather data is gathered for both the start and end times of a checklist and automatically displayed as a range.</p>
         <p>There are limitations to the accuracy of any weather API. If you are gathering weather data for a location that is near a weather station it should work just fine. If the location is a remote area with unique microclimate (deep canyons, mountain peaks, open ocean etc.) results from the nearest weather station will not be <em>as</em> accurate. Use at your own discretion!</p>
     </section>

@@ -52,6 +52,7 @@
     $postParsedWeatherArr = Object.entries($postParsedWeather);
     weatherCopy = '';
     $postParsedWeatherArr.forEach(([key, value]) => {
+
       if (activeOptionsArr.includes(key)) {
         if(key === 'temperature') {
           if (temperatureUnit === 'c') {
@@ -81,6 +82,7 @@
           weatherCopy += value + '\n';
         }
       }
+      
     })
   }
 
