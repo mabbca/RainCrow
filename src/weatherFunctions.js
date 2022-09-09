@@ -20,9 +20,16 @@ import { appName } from './store'
 
 export function parseWeather(times, weatherResults, parsedWeather) {
   parsedWeather = { 
-    icon: '',
+    icon: {
+      open: '',
+      emoji: ''
+    },
+    emoji: '',
     conditions: null,
-    temperature: null,
+    temperature: {
+      f: null,
+      c: null
+    },
     windspeed: null,
     cloudCover: null,
     humidity: null,
@@ -48,7 +55,27 @@ export function parseWeather(times, weatherResults, parsedWeather) {
   }
     // display all icons
   for (let icon of icons) {
-    parsedWeather.icon += `<img src="https://openweathermap.org/img/wn/${icon}.png" alt="Open Weather Icon" loading="lazy">`; 
+    parsedWeather.icon.open += `<img src="https://openweathermap.org/img/wn/${icon}.png" alt="Open Weather Icon" loading="lazy">`; 
+  }
+    // emoji icons
+  for (let icon of icons) {
+    if (icon === '01d' || icon === '01n') {
+      parsedWeather.icon.emoji += '☀️';
+    } else if (icon === '02d' || icon === '02n') {
+      parsedWeather.icon.emoji += '🌤';
+    } else if (icon === '03d' || icon === '03n') {
+      parsedWeather.icon.emoji += '⛅️';
+    } else if (icon === '04d' || icon === '04n') {
+      parsedWeather.icon.emoji += '☁️';
+    } else if (icon === '09d' || icon === '09n' || icon === '10d' || icon === '10n') {
+      parsedWeather.icon.emoji += '🌧';
+    } else if (icon === '11d' || icon === '11n') {
+      parsedWeather.icon.emoji += '🌩';
+    } else if (icon === '13d' || icon === '13n') {
+      parsedWeather.icon.emoji += '❄️';
+    } else if (icon === '50d' || icon === '50n') {
+      parsedWeather.icon.emoji += '🌫';
+    }
   }
 
   // CONDITION
@@ -80,7 +107,8 @@ export function parseWeather(times, weatherResults, parsedWeather) {
   if (weatherResults.end) {
     endTemp = weatherResults.end.data[0].temp;
   }
-  parsedWeather.temperature = 'Temperature: ' + dataRange(Math.round(startTemp), Math.round(endTemp)) + '°F';
+  parsedWeather.temperature.f = 'Temperature: ' + dataRange(Math.round(startTemp), Math.round(endTemp)) + '°F';
+  parsedWeather.temperature.c = 'Temperature: ' + dataRange(Math.round(convertToCelsius(startTemp)), Math.round(convertToCelsius(endTemp))) + '°C';
   
   // WINDSPEED
   let windspeed = {
@@ -97,11 +125,11 @@ export function parseWeather(times, weatherResults, parsedWeather) {
     windspeed.end.avg = weatherResults.end.data[0].wind_speed;
     windspeed.end.gusts = weatherResults.start.data[0].wind_gust;
   }
-        // Figure out how to give gusts option
   parsedWeather.windspeed = `Wind: ${dataRange(Math.round(windspeed.start.avg), Math.round(windspeed.end.avg))}mph`;
   if (windspeed.start.gusts || windspeed.end.gusts) {
     parsedWeather.windspeed =  parsedWeather.windspeed + ` (${dataRange(Math.round(windspeed.start.gusts), Math.round(windspeed.end.gusts))}mph gusts)`;
   }
+
   // CLOUD COVER
   let cloudCover = {
     start: weatherResults.start.data[0].clouds,
@@ -264,6 +292,10 @@ export async function queryOpenWeather(unixTime, lat, lon) {
   } catch(error) {
     throw error;
   };
+}
+
+function convertToCelsius (tempF) {
+  return (5/9)*(tempF - 32);
 }
 
 //   { parseWeather, getWeather, getUnixTimes, getTimezoneOffset, getChecklistInfo, queryOpenWeather }

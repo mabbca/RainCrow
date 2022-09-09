@@ -25,6 +25,9 @@
     icon: true,
     attr: true,
   }
+  let temperatureUnit = 'f';
+  let iconType = 'open';
+
   $: activeOptionsArr = Object
     .entries(options)
     .filter(([key, bool]) => bool)
@@ -65,9 +68,17 @@
   </nav>
 
   {#if viewingPost}
-  <PostView activeOptionsArr={activeOptionsArr} />
+  <PostView 
+    activeOptionsArr={activeOptionsArr}
+    temperatureUnit={temperatureUnit}
+    iconType={iconType}
+  />
   {:else}
-  <PreView activeOptionsArr={activeOptionsArr}/>
+  <PreView 
+    activeOptionsArr={activeOptionsArr}
+    temperatureUnit={temperatureUnit}
+    iconType={iconType}
+  />
   {/if}
 
 <!-- --------FOOTER-------- -->
@@ -93,35 +104,65 @@
 <div class="options-container">
   <div class="menu-exit" on:click={toggleOptions}>🆇</div>
   <div class="options-scroll">
+
     {#if viewingPost && $postStatus === 'show'}
     <div class="results-preview weatherDisp">
       <h3>Preview:</h3>
+
         {#each $postParsedWeatherArr as [key, entry]}
+
           {#if activeOptionsArr.includes(key)}
-            {#if entry && (key === 'icon' || key === 'attr')}
+            {#if entry && key === 'icon'}
+              {#if iconType === 'emoji'}
+                <p>{entry.emoji}</p>
+              {:else}
+                {@html entry.open}
+              {/if}
+            {:else if entry && key === 'attr'}
               {@html entry}
-            {:else if entry && key !== 'icon'}
+            {:else if entry && key === 'temperature'}
+              {#if temperatureUnit === 'c'}<p>{entry.c}</p>
+              {:else}<p>{entry.f}</p>
+              {/if}
+            {:else if entry}
               <p>{entry}</p>
             {:else}
               <p>None returned</p>
             {/if}
           {/if}
+
         {/each}
+
     </div>
+
     {:else if !viewingPost && $preStatus === 'show'}
     <div class="results-preview weatherDisp">
       <h3>Preview:</h3>
+
         {#each $preParsedWeatherArr as [key, entry]}
+
           {#if activeOptionsArr.includes(key)}
-            {#if entry && (key === 'icon' || key === 'attr')}
+            {#if entry && key === 'icon'}
+              {#if iconType === 'emoji'}
+                <p>{entry.emoji}</p>
+              {:else}
+                {@html entry.open}
+              {/if}
+            {:else if entry && key === 'attr'}
               {@html entry}
-            {:else if entry && key !== 'icon'}
+            {:else if entry && key === 'temperature'}
+              {#if temperatureUnit === 'c'}<p>{entry.c}</p>
+                {:else}<p>{entry.f}</p>
+              {/if}
+            {:else if entry}
               <p>{entry}</p>
             {:else}
               <p>None returned</p>
             {/if}
           {/if}
+
         {/each}
+
     </div>
     {/if}
 
@@ -129,6 +170,10 @@
       <div class="option-item">
         <input type="checkbox" name="icon" id="icon" bind:checked={options.icon}>
         <label for="icon">Weather Icons</label>
+        <select name="icon-type" id="icon-type" bind:value={iconType}>
+          <option value="open">OpenWeather</option>
+          <option value="emoji">Emoji</option>
+        </select>
       </div>
       <div class="option-item">
         <input type="checkbox" name="conditions" id="conditions" bind:checked={options.conditions}>
@@ -137,10 +182,10 @@
       <div class="option-item">
         <input type="checkbox" name="temperature" id="temperature" bind:checked={options.temperature}>
         <label for="temperature">Temperature</label>
-        <!-- <select name="temp-unit" id="temp-unit">
+        <select name="temp-unit" id="temp-unit" bind:value={temperatureUnit}>
           <option value="f">F°</option>
           <option value="c">C°</option>
-        </select> -->
+        </select>
       </div>
       <div class="option-item">
         <input type="checkbox" name="windspeed" id="windspeed" bind:checked={options.windspeed}>
@@ -262,6 +307,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 1rem;
   }
   .option-item input {

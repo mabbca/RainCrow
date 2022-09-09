@@ -4,6 +4,8 @@
 
   // Props
   export let activeOptionsArr;
+  export let temperatureUnit;
+  export let iconType;
 
   // Weather Functions
   import { getTimezoneOffset, getUnixTimes, getWeather, parseWeather } from '../weatherFunctions';
@@ -47,7 +49,21 @@
     weatherCopy = '';
     $preParsedWeatherArr.forEach(([key, value]) => {
       if (activeOptionsArr.includes(key)) {
-        weatherCopy += value + '\n';
+        if(key === 'temperature') {
+          if (temperatureUnit === 'c') {
+            weatherCopy += value.c + '\n';
+          } else {
+            weatherCopy += value.f + '\n';
+          }
+        } else if (key === 'icon') {
+          if (iconType === 'emoji') {
+            weatherCopy += value.emoji + '\n';
+          } else {
+            weatherCopy += value.open + '\n';
+          }
+        } else {
+          weatherCopy += value + '\n';
+        }
       }
     })
   }
@@ -281,17 +297,31 @@
           {:else if $preStatus === 'error'}
             {errorText}
           {:else if $preStatus === 'show'}
+
             {#each $preParsedWeatherArr as [key, entry]}
+
               {#if activeOptionsArr.includes(key)}
-                {#if entry && (key === 'icon' || key === 'attr')}
+                {#if entry && key === 'icon'}
+                  {#if iconType === 'emoji'}
+                    <p>{entry.emoji}</p>
+                  {:else}
+                    {@html entry.open}
+                  {/if}
+                {:else if entry && key === 'attr'}
                   {@html entry}
-                {:else if entry && key !== 'icon'}
+                {:else if entry && key === 'temperature'}
+                  {#if temperatureUnit === 'c'}<p>{entry.c}</p>
+                    {:else}<p>{entry.f}</p>
+                  {/if}
+                {:else if entry}
                   <p>{entry}</p>
                 {:else}
                   <p>None returned</p>
                 {/if}
               {/if}
+
             {/each}
+
           {/if}
         </div>
           {#if $preStatus === 'show'}
