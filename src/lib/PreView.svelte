@@ -6,6 +6,7 @@
   export let activeOptionsArr;
   export let temperatureUnit;
   export let iconType;
+  export let windUnit;
 
   // Weather Functions
   import { getTimezoneOffset, getUnixTimes, getWeather, parseWeather } from '../weatherFunctions';
@@ -300,25 +301,37 @@
 
             {#each $preParsedWeatherArr as [key, entry]}
 
-              {#if activeOptionsArr.includes(key)}
-                {#if entry && key === 'icon'}
-                  {#if iconType === 'emoji'}
-                    <p>{entry.emoji}</p>
-                  {:else}
-                    {@html entry.open}
-                  {/if}
-                {:else if entry && key === 'attr'}
-                  {@html entry}
-                {:else if entry && key === 'temperature'}
-                  {#if temperatureUnit === 'c'}<p>{entry.c}</p>
-                    {:else}<p>{entry.f}</p>
-                  {/if}
-                {:else if entry}
-                  <p>{entry}</p>
+            {#if activeOptionsArr.includes(key)}
+              {#if entry && key === 'icon'}
+                {#if iconType === 'emoji'}
+                  <p>{entry.emoji}</p>
                 {:else}
-                  <p>None returned</p>
+                  {@html entry.open}
                 {/if}
+              {:else if entry && key === 'attr'}
+                {@html entry}
+              {:else if entry && key === 'temperature'}
+                {#if temperatureUnit === 'c'}<p>{entry.c}</p>
+                  {:else}<p>{entry.f}</p>
+                {/if}
+              {:else if entry && key === 'windspeed'}
+                {#if windUnit === 'mph'}
+                  <p>{entry.mph}</p>
+                {:else if windUnit === 'kmh'}
+                  <p>{entry.kmh}</p>
+                {:else if windUnit === 'ms'}
+                  <p>{entry.ms}</p>
+                {:else if windUnit === 'beaufort'}
+                  <p>{entry.beaufort}</p>
+                {:else if windUnit === 'description'}
+                  <p>{entry.description}</p>
+                {/if}
+              {:else if entry}
+                <p>{entry}</p>
+              {:else}
+                <p>None returned</p>
               {/if}
+            {/if}
 
             {/each}
 

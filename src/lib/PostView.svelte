@@ -6,6 +6,7 @@
   export let activeOptionsArr;
   export let temperatureUnit;
   export let iconType;
+  export let windUnit;
 
   //Stores
   import { postParsedWeather, postParsedWeatherArr, postStatus, appName } from '../store';
@@ -194,6 +195,18 @@
                 {:else if entry && key === 'temperature'}
                   {#if temperatureUnit === 'c'}<p>{entry.c}</p>
                     {:else}<p>{entry.f}</p>
+                  {/if}
+                {:else if entry && key === 'windspeed'}
+                  {#if windUnit === 'mph'}
+                    <p>{entry.mph}</p>
+                  {:else if windUnit === 'kmh'}
+                    <p>{entry.kmh}</p>
+                  {:else if windUnit === 'ms'}
+                    <p>{entry.ms}</p>
+                  {:else if windUnit === 'beaufort'}
+                    <p>{entry.beaufort}</p>
+                  {:else if windUnit === 'description'}
+                    <p>{entry.description}</p>
                   {/if}
                 {:else if entry}
                   <p>{entry}</p>
