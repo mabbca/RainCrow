@@ -26,7 +26,7 @@
     attr: true,
   }
   let temperatureUnit = 'f';
-  let iconType = 'open';
+  let iconType = 'emoji';
   let windUnit = 'description'
 
   $: activeOptionsArr = Object
