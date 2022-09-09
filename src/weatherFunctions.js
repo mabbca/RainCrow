@@ -124,8 +124,8 @@ export function parseWeather(times, weatherResults, parsedWeather) {
       gusts: weatherResults.start.data[0].wind_gust
     },
     end: {
-      avg: null,
-      gusts: null
+      avg: undefined,
+      gusts: undefined
     }
   }
   if (weatherResults.end) {
@@ -142,9 +142,11 @@ export function parseWeather(times, weatherResults, parsedWeather) {
     parsedWeather.windspeed.ms =  parsedWeather.windspeed.ms + ` (${dataRange(Math.round(mphToMs(windspeed.start.gusts)), Math.round(mphToMs(windspeed.end.gusts)))}m/s gusts)`;
     parsedWeather.windspeed.kmh =  parsedWeather.windspeed.kmh + ` (${dataRange(Math.round(mphToKmh(windspeed.start.gusts)), Math.round(mphToKmh(windspeed.end.gusts)))}km/h gusts)`;
     // Show entire range in two values for Beaufort and text description
-    let sortedWindspeedArr = [windspeed.start.avg, windspeed.start.gusts, windspeed.end.avg, windspeed.end.gusts].sort((a,b) => a - b);
-    parsedWeather.windspeed.beaufort = `Beaufort force: ${dataRange(Math.round(mphToBeaufort(sortedWindspeedArr[0])), Math.round(mphToBeaufort(sortedWindspeedArr[3])))}`;
-    parsedWeather.windspeed.description = capitolizeFirst(dataRange(mphToDescription(sortedWindspeedArr[0]), mphToDescription(sortedWindspeedArr[3])));
+    let windspeedArr = [windspeed.start.avg, windspeed.start.gusts, windspeed.end.avg, windspeed.end.gusts];
+    let windspeedFilteredArr = windspeedArr.filter(entry => entry || entry === 0);
+    let sortedWindspeedArr = windspeedFilteredArr.sort((a,b) => a - b);
+    parsedWeather.windspeed.beaufort = `Beaufort force: ${dataRange(Math.round(mphToBeaufort(sortedWindspeedArr[0])), Math.round(mphToBeaufort(sortedWindspeedArr[sortedWindspeedArr.length-1])))}`;
+    parsedWeather.windspeed.description = capitolizeFirst(dataRange(mphToDescription(sortedWindspeedArr[0]), mphToDescription(sortedWindspeedArr[sortedWindspeedArr.length-1])));
   }
 
 

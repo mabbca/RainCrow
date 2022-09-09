@@ -34,7 +34,7 @@
     <section>
         <h3>Options</h3>
         <p>The options menu allows you to select the weather data you want to include.</p>
-        <p>In order for <strong>Weather Icons</strong> and <strong>Include Link</strong> options to show up on your eBird checklist, you must include &lt;HTML tags&gt; to embed the images or create the link. You don't need to worry about doing this yourself, the code is included when you click <span class="copy">Copy to Clipboard</span>. The images and link will display normally once you submit the copied code to your checklist comments.</p>
+        <p>In order for <strong>OpenWeather Icons</strong> and <strong>Include Link</strong> options to show up on your eBird checklist, you must include &lt;HTML tags&gt; to embed the images or create the link. You don't need to worry about doing this yourself, the code is included when you click <span class="copy">Copy to Clipboard</span>. The images and link will display normally once you submit the copied code to your checklist comments.</p>
         <!-- <p>Click on <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img" target="_blank">&lt;img&gt;</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a" target="_blank">&lt;a&gt;</a> to learn more about these HTML tags on the Mozilla Web Documentation website.  -->
         <!-- <p>Learn more about the OpenWeather Icons <a href="https://openweathermap.org/weather-conditions#How-to-get-icon-URL" target="_blank">here</a>.</p> -->
     </section>
