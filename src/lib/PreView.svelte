@@ -9,7 +9,7 @@
   import { getTimezoneOffset, getUnixTimes, getWeather, parseWeather } from '../weatherFunctions';
  
   // Stores
-  import { preParsedWeather, preParsedWeatherArr, preStatus} from '../store';
+  import { preParsedWeather, preStatus, preWeatherCopy} from '../store';
 
   //Clipboard stuff, move elsewhere
   let weatherCopy = '';
@@ -21,7 +21,7 @@
   }
   const copyToClipboard = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(weatherCopy).then(
+      navigator.clipboard.writeText($preWeatherCopy).then(
         function () {
           copyButtonText = "Copied!";
           copyButtonDisabled = true;

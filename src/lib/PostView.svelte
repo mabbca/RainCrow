@@ -4,9 +4,10 @@
 
   //Component
   import WeatherDisplay from './WeatherDisplay.svelte'
+  import WeatherCopy from './WeatherCopy.svelte';
 
   //Stores
-  import { postParsedWeather, postParsedWeatherArr, postStatus} from '../store';
+  import { postParsedWeather, postStatus, postWeatherCopy} from '../store';
 
   // Weather Functions
   import { parseWeather, getWeather, getUnixTimes, getTimezoneOffset, getChecklistInfo } from '../weatherFunctions';
@@ -21,7 +22,7 @@
   }
   const copyToClipboard = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(weatherCopy).then(
+      navigator.clipboard.writeText($postWeatherCopy).then(
         function () {
           copyButtonText = "Copied!";
           copyButtonDisabled = true;
@@ -45,6 +46,9 @@
 
   let checklistId = '';
   let checklistInfo = {};
+
+  let weatherDisplayText;
+
   // $: {
   //   $postParsedWeatherArr = Object.entries($postParsedWeather);
   //   weatherCopy = '';
@@ -191,44 +195,9 @@
           {:else if $postStatus === 'error'}
             {errorText}
           {:else if $postStatus === 'show'}
-            <WeatherDisplay isPost={true} isPreview={false} />
-
-            <!-- {#each $postParsedWeatherArr as [key, entry]}
-
-              {#if activeOptionsArr.includes(key)}
-                {#if entry && key === 'icon'}
-                  {#if iconType === 'emoji'}
-                    <p>{entry.emoji}</p>
-                  {:else}
-                    {@html entry.open}
-                  {/if}
-                {:else if entry && key === 'attr'}
-                  {@html entry}
-                {:else if entry && key === 'temperature'}
-                  {#if temperatureUnit === 'c'}<p>{entry.c}</p>
-                    {:else}<p>{entry.f}</p>
-                  {/if}
-                {:else if entry && key === 'windspeed'}
-                  {#if windUnit === 'mph'}
-                    <p>{entry.mph}</p>
-                  {:else if windUnit === 'kmh'}
-                    <p>{entry.kmh}</p>
-                  {:else if windUnit === 'ms'}
-                    <p>{entry.ms}</p>
-                  {:else if windUnit === 'beaufort'}
-                    <p>{entry.beaufort}</p>
-                  {:else if windUnit === 'description'}
-                    <p>{entry.description}</p>
-                  {/if}
-                {:else if entry}
-                  <p>{entry}</p>
-                {:else}
-                  <p>None returned</p>
-                {/if}
-              {/if}
-
-            {/each} -->
-
+            <div contenteditable="true" bind:innerHTML={weatherDisplayText}>
+              <WeatherDisplay isPost={true} isPreview={false} />
+            </div>
           {/if}
         </div>
           {#if $postStatus === 'show'}
