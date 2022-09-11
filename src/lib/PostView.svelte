@@ -195,9 +195,7 @@
           {:else if $postStatus === 'error'}
             {errorText}
           {:else if $postStatus === 'show'}
-            <div contenteditable="true" bind:innerHTML={weatherDisplayText}>
-              <WeatherDisplay isPost={true} isPreview={false} />
-            </div>
+            <WeatherDisplay isPost={true} isPreview={false} />
           {/if}
         </div>
           {#if $postStatus === 'show'}
