@@ -2,14 +2,11 @@
   // Dayjs
   import dayjs from 'dayjs';
 
-  // Props
-  export let activeOptionsArr;
-  export let temperatureUnit;
-  export let iconType;
-  export let windUnit;
+  //Component
+  import WeatherDisplay from './WeatherDisplay.svelte'
 
   //Stores
-  import { postParsedWeather, postParsedWeatherArr, postStatus, appName } from '../store';
+  import { postParsedWeather, postParsedWeatherArr, postStatus} from '../store';
 
   // Weather Functions
   import { parseWeather, getWeather, getUnixTimes, getTimezoneOffset, getChecklistInfo } from '../weatherFunctions';
@@ -48,43 +45,43 @@
 
   let checklistId = '';
   let checklistInfo = {};
-  $: {
-    $postParsedWeatherArr = Object.entries($postParsedWeather);
-    weatherCopy = '';
-    $postParsedWeatherArr.forEach(([key, value]) => {
+  // $: {
+  //   $postParsedWeatherArr = Object.entries($postParsedWeather);
+  //   weatherCopy = '';
+  //   $postParsedWeatherArr.forEach(([key, value]) => {
 
-      if (activeOptionsArr.includes(key)) {
-        if(key === 'temperature') {
-          if (temperatureUnit === 'c') {
-            weatherCopy += value.c + '\n';
-          } else {
-            weatherCopy += value.f + '\n';
-          }
-        } else if (key === 'icon') {
-          if (iconType === 'emoji') {
-            weatherCopy += value.emoji + '\n';
-          } else {
-            weatherCopy += value.open + '\n';
-          }
-        } else if (key==='windspeed') {
-          if (windUnit === 'mph') {
-            weatherCopy += value.mph + '\n';
-          } else if (windUnit === 'ms') {
-            weatherCopy += value.ms + '\n';
-          } else if (windUnit === 'kmh') {
-            weatherCopy += value.kmh + '\n';
-          } else if (windUnit === 'description') {
-            weatherCopy += value.description + '\n';
-          } else if (windUnit === 'beaufort') {
-            weatherCopy += value.beaufort + '\n';
-          }
-        } else {
-          weatherCopy += value + '\n';
-        }
-      }
+  //     if (activeOptionsArr.includes(key)) {
+  //       if(key === 'temperature') {
+  //         if (temperatureUnit === 'c') {
+  //           weatherCopy += value.c + '\n';
+  //         } else {
+  //           weatherCopy += value.f + '\n';
+  //         }
+  //       } else if (key === 'icon') {
+  //         if (iconType === 'emoji') {
+  //           weatherCopy += value.emoji + '\n';
+  //         } else {
+  //           weatherCopy += value.open + '\n';
+  //         }
+  //       } else if (key==='windspeed') {
+  //         if (windUnit === 'mph') {
+  //           weatherCopy += value.mph + '\n';
+  //         } else if (windUnit === 'ms') {
+  //           weatherCopy += value.ms + '\n';
+  //         } else if (windUnit === 'kmh') {
+  //           weatherCopy += value.kmh + '\n';
+  //         } else if (windUnit === 'description') {
+  //           weatherCopy += value.description + '\n';
+  //         } else if (windUnit === 'beaufort') {
+  //           weatherCopy += value.beaufort + '\n';
+  //         }
+  //       } else {
+  //         weatherCopy += value + '\n';
+  //       }
+  //     }
       
-    })
-  }
+  //   })
+  // }
 
   let errorTextOptions = [
     // "That doesn't seem like a real Checklist ID...",
@@ -194,8 +191,9 @@
           {:else if $postStatus === 'error'}
             {errorText}
           {:else if $postStatus === 'show'}
+            <WeatherDisplay isPost={true} isPreview={false} />
 
-            {#each $postParsedWeatherArr as [key, entry]}
+            <!-- {#each $postParsedWeatherArr as [key, entry]}
 
               {#if activeOptionsArr.includes(key)}
                 {#if entry && key === 'icon'}
@@ -229,7 +227,7 @@
                 {/if}
               {/if}
 
-            {/each}
+            {/each} -->
 
           {/if}
         </div>

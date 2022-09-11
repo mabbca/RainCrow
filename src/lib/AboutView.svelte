@@ -1,12 +1,11 @@
 <script>
     import { aboutView } from "../store";
     import openweatherLogo from '/src/assets/openweatherlogo-light.jpg'
-    export let appName;
 </script>
 
 <div class="about-container">
     <div class="menu-exit" on:click={()=> $aboutView = false}>🆇</div>
-    <h2>Welcome to {appName}! 🌦</h2>
+    <h2>Welcome to RainCrow! 🌦</h2>
     <p class="attr">Created by <a href="https://parkerdavis.dev/" target="_blank">Parker Davis</a></p>
 
     <p>This web app was created for the quick retrieval of historical weather observations for <a href="https://ebird.org/about" target="_blank">eBird</a> checklists.</p>

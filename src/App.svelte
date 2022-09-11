@@ -3,40 +3,18 @@
   import PostView from './lib/PostView.svelte'
   import PreView from './lib/PreView.svelte'
   import AboutView from './lib/AboutView.svelte';
+  import WeatherDisplay from './lib/WeatherDisplay.svelte';
 
   // Helpers
   import { capitolizeFirst, dataRange } from './helpers';
   import dayjs from 'dayjs';
 
   // Stores
-  import { postParsedWeatherArr, postStatus, aboutView, preParsedWeatherArr, preStatus, appName } from './store.js';
+  import { postStatus, aboutView, preStatus, options } from './store.js';
 
   // State
   let viewingPost = true;
   let optionsView = false;
-  let options = {
-    conditions: true,
-    temperature: true,
-    windspeed: true,
-    sunrise: true,
-    sunset: true,
-    cloudCover: true,
-    humidity: true,
-    icon: true,
-    attr: true,
-  }
-  let temperatureUnit = 'f';
-  let iconType = 'emoji';
-  let windUnit = 'description'
-
-  $: activeOptionsArr = Object
-    .entries(options)
-    .filter(([key, bool]) => bool)
-    .map(([key, bool]) => {
-    if (bool === true){
-      return key;
-    }
-  })
 
   // Other Functions
   const toggleOptions = () => {
@@ -69,19 +47,9 @@
   </nav>
 
   {#if viewingPost}
-  <PostView 
-    activeOptionsArr={activeOptionsArr}
-    temperatureUnit={temperatureUnit}
-    iconType={iconType}
-    windUnit={windUnit}
-  />
+  <PostView />
   {:else}
-  <PreView 
-    activeOptionsArr={activeOptionsArr}
-    temperatureUnit={temperatureUnit}
-    iconType={iconType}
-    windUnit={windUnit}
-  />
+  <PreView />
   {/if}
 
 <!-- --------FOOTER-------- -->
@@ -99,7 +67,7 @@
 <!-- --------ABOUT MENU-------- -->
 
 {#if $aboutView}
-<AboutView appName={appName}/>
+<AboutView />
 {/if}
 
 <!-- --------OPTIONS MENU-------- -->
@@ -109,115 +77,36 @@
   <div class="options-scroll">
 
     {#if viewingPost && $postStatus === 'show'}
-    <div class="results-preview weatherDisp">
-      <h3>Preview:</h3>
-
-        {#each $postParsedWeatherArr as [key, entry]}
-
-        {#if activeOptionsArr.includes(key)}
-          {#if entry && key === 'icon'}
-            {#if iconType === 'emoji'}
-              <p>{entry.emoji}</p>
-            {:else}
-              {@html entry.open}
-            {/if}
-          {:else if entry && key === 'attr'}
-            {@html entry}
-          {:else if entry && key === 'temperature'}
-            {#if temperatureUnit === 'c'}<p>{entry.c}</p>
-              {:else}<p>{entry.f}</p>
-            {/if}
-          {:else if entry && key === 'windspeed'}
-            {#if windUnit === 'mph'}
-              <p>{entry.mph}</p>
-            {:else if windUnit === 'kmh'}
-              <p>{entry.kmh}</p>
-            {:else if windUnit === 'ms'}
-              <p>{entry.ms}</p>
-            {:else if windUnit === 'beaufort'}
-              <p>{entry.beaufort}</p>
-            {:else if windUnit === 'description'}
-              <p>{entry.description}</p>
-            {/if}
-          {:else if entry}
-            <p>{entry}</p>
-          {:else}
-            <p>None returned</p>
-          {/if}
-        {/if}
-
-        {/each}
-
-    </div>
-
+      <WeatherDisplay isPreview={true} isPost={true} />
     {:else if !viewingPost && $preStatus === 'show'}
-    <div class="results-preview weatherDisp">
-      <h3>Preview:</h3>
-
-        {#each $preParsedWeatherArr as [key, entry]}
-
-        {#if activeOptionsArr.includes(key)}
-          {#if entry && key === 'icon'}
-            {#if iconType === 'emoji'}
-              <p>{entry.emoji}</p>
-            {:else}
-              {@html entry.open}
-            {/if}
-          {:else if entry && key === 'attr'}
-            {@html entry}
-          {:else if entry && key === 'temperature'}
-            {#if temperatureUnit === 'c'}<p>{entry.c}</p>
-              {:else}<p>{entry.f}</p>
-            {/if}
-          {:else if entry && key === 'windspeed'}
-            {#if windUnit === 'mph'}
-              <p>{entry.mph}</p>
-            {:else if windUnit === 'kmh'}
-              <p>{entry.kmh}</p>
-            {:else if windUnit === 'ms'}
-              <p>{entry.ms}</p>
-            {:else if windUnit === 'beaufort'}
-              <p>{entry.beaufort}</p>
-            {:else if windUnit === 'description'}
-              <p>{entry.description}</p>
-            {/if}
-          {:else if entry}
-            <p>{entry}</p>
-          {:else}
-            <p>None returned</p>
-          {/if}
-        {/if}
-
-        {/each}
-
-    </div>
+      <WeatherDisplay isPreview={true} isPost={false} />
     {/if}
 
     <div class="options-list">
       <div class="option-item">
-        <input type="checkbox" name="icon" id="icon" bind:checked={options.icon}>
+        <input type="checkbox" name="icon" id="icon" bind:checked={$options.icon}>
         <label for="icon">Weather Icons</label>
-        <select name="icon-type" id="icon-type" bind:value={iconType}>
+        <select name="icon-type" id="icon-type" bind:value={$options.iconType}>
           <option value="open">OpenWeather</option>
           <option value="emoji">Emoji</option>
         </select>
       </div>
       <div class="option-item">
-        <input type="checkbox" name="conditions" id="conditions" bind:checked={options.conditions}>
+        <input type="checkbox" name="conditions" id="conditions" bind:checked={$options.conditions}>
         <label for="conditions">Conditions</label>
       </div>
       <div class="option-item">
-        <input type="checkbox" name="temperature" id="temperature" bind:checked={options.temperature}>
+        <input type="checkbox" name="temperature" id="temperature" bind:checked={$options.temperature}>
         <label for="temperature">Temperature</label>
-        <select name="temp-unit" id="temp-unit" bind:value={temperatureUnit}>
+        <select name="temp-unit" id="temp-unit" bind:value={$options.temperatureUnit}>
           <option value="f">F°</option>
           <option value="c">C°</option>
         </select>
       </div>
       <div class="option-item">
-        <input type="checkbox" name="windspeed" id="windspeed" bind:checked={options.windspeed}>
+        <input type="checkbox" name="windspeed" id="windspeed" bind:checked={$options.windspeed}>
         <label for="windspeed">Windspeed</label>
-        <select name="wind-unit" id="wind-unit" bind:value={windUnit}>
+        <select name="wind-unit" id="wind-unit" bind:value={$options.windUnit}>
           <option value="description">Description</option>
           <option value="beaufort">Beaufort Scale</option>
           <option value="mph">mph</option>
@@ -226,23 +115,31 @@
         </select>
       </div>
       <div class="option-item">
-        <input type="checkbox" name="cloudCover" id="cloudCover" bind:checked={options.cloudCover}>
+        <input type="checkbox" name="windDirection" id="windDirection" bind:checked={$options.windDirection}>
+        <label for="windDirection">Wind Direction</label>
+        <!-- <select name="windDirectionType" id="windDirectionType" bind:value={$options.windDirectionType}>
+          <option value="arrow">Arrow</option>
+          <option value="text">Text</option>
+        </select> -->
+      </div>
+      <div class="option-item">
+        <input type="checkbox" name="cloudCover" id="cloudCover" bind:checked={$options.cloudCover}>
         <label for="cloudCover">Cloud Cover (%)</label>
       </div>
       <div class="option-item">
-        <input type="checkbox" name="humidity" id="humidity" bind:checked={options.humidity}>
+        <input type="checkbox" name="humidity" id="humidity" bind:checked={$options.humidity}>
         <label for="humidity">Humidity (%)</label>
       </div>
       <div class="option-item">
-        <input type="checkbox" name="sunrise" id="sunrise" bind:checked={options.sunrise}>
+        <input type="checkbox" name="sunrise" id="sunrise" bind:checked={$options.sunrise}>
         <label for="sunrise">Sunrise</label>
       </div>
       <div class="option-item">
-        <input type="checkbox" name="sunset" id="sunset" bind:checked={options.sunset}>
+        <input type="checkbox" name="sunset" id="sunset" bind:checked={$options.sunset}>
         <label for="sunset">Sunset</label>
       </div>
       <div class="option-item">
-        <input type="checkbox" name="attr" id="attr" bind:checked={options.attr}>
+        <input type="checkbox" name="attr" id="attr" bind:checked={$options.attr}>
         <label for="attr">Include Link</label>
       </div>
     </div>
@@ -349,13 +246,6 @@
   }
   .option-item label {
     flex-grow: 1;
-  }
-
-  .results-preview {
-    font-size: 0.75rem;
-    margin: auto;
-    min-height: 220px;
-    width: fit-content;
   }
   .about-button {
     border: none;

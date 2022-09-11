@@ -2,17 +2,14 @@
   //DayJS
   import dayjs from 'dayjs'
 
-  // Props
-  export let activeOptionsArr;
-  export let temperatureUnit;
-  export let iconType;
-  export let windUnit;
+  // Components
+  import WeatherDisplay from './WeatherDisplay.svelte';
 
   // Weather Functions
   import { getTimezoneOffset, getUnixTimes, getWeather, parseWeather } from '../weatherFunctions';
  
   // Stores
-  import { preParsedWeather, preParsedWeatherArr, preStatus, appName } from '../store';
+  import { preParsedWeather, preParsedWeatherArr, preStatus} from '../store';
 
   //Clipboard stuff, move elsewhere
   let weatherCopy = '';
@@ -45,43 +42,43 @@
   } 
 
   // Reactive parsedweatherArr for rendering
-  $: {
-    $preParsedWeatherArr = Object.entries($preParsedWeather);
-    weatherCopy = '';
-    $preParsedWeatherArr.forEach(([key, value]) => {
+  // $: {
+  //   $preParsedWeatherArr = Object.entries($preParsedWeather);
+  //   weatherCopy = '';
+  //   $preParsedWeatherArr.forEach(([key, value]) => {
 
-      if (activeOptionsArr.includes(key)) {
-        if(key === 'temperature') {
-          if (temperatureUnit === 'c') {
-            weatherCopy += value.c + '\n';
-          } else {
-            weatherCopy += value.f + '\n';
-          }
-        } else if (key === 'icon') {
-          if (iconType === 'emoji') {
-            weatherCopy += value.emoji + '\n';
-          } else {
-            weatherCopy += value.open + '\n';
-          }
-        } else if (key==='windspeed') {
-          if (windUnit === 'mph') {
-            weatherCopy += value.mph + '\n';
-          } else if (windUnit === 'ms') {
-            weatherCopy += value.ms + '\n';
-          } else if (windUnit === 'kmh') {
-            weatherCopy += value.kmh + '\n';
-          } else if (windUnit === 'description') {
-            weatherCopy += value.description + '\n';
-          } else if (windUnit === 'beaufort') {
-            weatherCopy += value.beaufort + '\n';
-          }
-        } else {
-          weatherCopy += value + '\n';
-        }
-      }
+  //     if (activeOptionsArr.includes(key)) {
+  //       if(key === 'temperature') {
+  //         if (temperatureUnit === 'c') {
+  //           weatherCopy += value.c + '\n';
+  //         } else {
+  //           weatherCopy += value.f + '\n';
+  //         }
+  //       } else if (key === 'icon') {
+  //         if (iconType === 'emoji') {
+  //           weatherCopy += value.emoji + '\n';
+  //         } else {
+  //           weatherCopy += value.open + '\n';
+  //         }
+  //       } else if (key==='windspeed') {
+  //         if (windUnit === 'mph') {
+  //           weatherCopy += value.mph + '\n';
+  //         } else if (windUnit === 'ms') {
+  //           weatherCopy += value.ms + '\n';
+  //         } else if (windUnit === 'kmh') {
+  //           weatherCopy += value.kmh + '\n';
+  //         } else if (windUnit === 'description') {
+  //           weatherCopy += value.description + '\n';
+  //         } else if (windUnit === 'beaufort') {
+  //           weatherCopy += value.beaufort + '\n';
+  //         }
+  //       } else {
+  //         weatherCopy += value + '\n';
+  //       }
+  //     }
 
-    })
-  }
+  //   })
+  // }
 
   // Date Time
   const currentDateTime = dayjs();
@@ -312,7 +309,10 @@
           {:else if $preStatus === 'error'}
             {errorText}
           {:else if $preStatus === 'show'}
+          <WeatherDisplay isPost={false} isPreview={false} />
 
+
+<!-- 
             {#each $preParsedWeatherArr as [key, entry]}
 
             {#if activeOptionsArr.includes(key)}
@@ -347,7 +347,7 @@
               {/if}
             {/if}
 
-            {/each}
+            {/each} -->
 
           {/if}
         </div>
