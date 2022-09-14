@@ -11,6 +11,13 @@
     <p>This web app was created for the quick retrieval of historical weather observations for <a href="https://ebird.org/about" target="_blank">eBird</a> checklists.</p>
 
     <section>
+        <details>
+        <summary>429 Error?</summary>
+        <p>If you get a error with code 429, it means that I've reached my limit of free OpenWeather API calls. I'm working on a solution for this. Sorry, try again tomorrow!</p>
+        </details>
+    </section>
+
+    <section>
         <h3>Submitted</h3>
         <p>Use for checklists that have already been submitted to eBird. Just enter the Checklist ID (or the entire URL) and click <span>Get Weather</span>.</p>
     </section>
@@ -43,10 +50,6 @@
         <p>Weather data provided by <a href="https://openweathermap.org/" target="_blank">OpenWeather</a>.</p>
         <p>Weather data is gathered for both the start and end times of a checklist and automatically displayed as a range.</p>
         <p>There are limitations to the accuracy of any weather API. If you are gathering weather data for a location that is near a weather station it should work just fine. If the location is a remote area with unique microclimate (deep canyons, mountain peaks, open ocean etc.) results will have more room for error. Use at your own discretion!</p>
-        <section>
-            <h4>429 Error</h4>
-            <p>If you get a error with code 429, it means that I've reached my limit of free OpenWeather API calls. Sorry, try again tomorrow!</p>
-        </section>
     </section>
 
     <section>
