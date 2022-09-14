@@ -13,7 +13,7 @@
     <section>
         <details>
         <summary>429 Error?</summary>
-        <p>If you get a error with code 429, it means that I've reached my limit of free OpenWeather API calls. I'm working on a solution for this. Sorry, try again tomorrow!</p>
+        <p>If you get a error with code 429, it means that I've reached my limit of free OpenWeather API calls for the day. I'm working on a solution for this. Sorry, try again tomorrow!</p>
         </details>
     </section>
 
