@@ -1,6 +1,7 @@
 import { writable, derived } from 'svelte/store';
 
-export let options = writable({
+
+let defaultOptions = {
     conditions: true,
     temperature: true,
     temperatureUnit: 'f',
@@ -15,11 +16,15 @@ export let options = writable({
     icon: true,
     iconType: 'emoji',
     attr: true,
-})
-export let temperatureUnit = writable('f');
-export let iconType = writable('emoji');
-export let windUnit = writable('description');
-export let windDirectionType = writable('text');
+}
+// Get user option preferences from local store, if no local store use default options
+export const options = writable(JSON.parse(localStorage.getItem('storedOptions'))||defaultOptions);
+// When options change, change the local store
+options.subscribe((value) => localStorage.storedOptions = JSON.stringify(value));
+ 
+
+
+
 
 export let postParsedWeather = writable(
     { 
