@@ -31,7 +31,7 @@
           }, 3000);
         },
         function (err) {
-          copyButtonText = "Error!";
+          copyButtonText = "Error! " + err;
           copyButtonDisabled = true;
         }
       );
@@ -119,8 +119,9 @@
   // latLon Parser 
   const getLatLon = () => {
     let commaIndex = latLon.indexOf(',');
-    location.lat = latLon.slice(0, commaIndex).trim();
-    location.lon = latLon.slice(commaIndex + 1).trim();
+    const parenRegex = /(\(|\))/g; //remove parenthesis
+    location.lat = latLon.slice(0, commaIndex).trim().replace(parenRegex, '');
+    location.lon = latLon.slice(commaIndex + 1).trim().replace(parenRegex, '');
   }
 
   // Location Obj
