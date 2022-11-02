@@ -11,7 +11,7 @@ dayjs.extend(customParseFormat);
 import { openWeather, visualCrossing } from './keys.json';
 
 // Helpers
-import { capitolizeFirst, dataRange } from './helpers';
+import { capitalizeFirst, dataRange } from './helpers';
   
 // eBird / Weather Functions
 
@@ -62,7 +62,7 @@ export function parseWeather(times, weatherResults, parsedWeather) {
   }
     // display all icons
   for (let icon of icons) {
-    parsedWeather.icon.open += `<img src="https://openweathermap.org/img/wn/${icon}.png" alt="Open Weather Icon" loading="lazy">`; 
+    parsedWeather.icon.open += `<img src="https://openweathermap.org/img/wn/${icon}.png" alt="Open Weather Icon">`; 
   }
     // emoji icons
   for (let icon of icons) {
@@ -101,11 +101,11 @@ export function parseWeather(times, weatherResults, parsedWeather) {
   }
     // format conditions based on number of different conditions
   if (conditions.length > 2) {
-    parsedWeather.conditions = capitolizeFirst(conditions.join(', '));
+    parsedWeather.conditions = capitalizeFirst(conditions.join(', '));
   } else if (conditions.length === 2) {
-    parsedWeather.conditions = capitolizeFirst(conditions.join(' - '));
+    parsedWeather.conditions = capitalizeFirst(conditions.join(' - '));
   } else {
-    parsedWeather.conditions = capitolizeFirst(conditions.join())
+    parsedWeather.conditions = capitalizeFirst(conditions.join())
   }
   
   // TEMPERATURE
@@ -136,7 +136,7 @@ export function parseWeather(times, weatherResults, parsedWeather) {
   parsedWeather.windspeed.ms = dataRange(Math.round(mphToMs(windspeed.start.avg)), Math.round(mphToMs(windspeed.end.avg))) + 'm/s';
   parsedWeather.windspeed.kmh = dataRange(Math.round(mphToKmh(windspeed.start.avg)), Math.round(mphToKmh(windspeed.end.avg))) + 'km/h';
   parsedWeather.windspeed.beaufort = dataRange(Math.round(mphToBeaufort(windspeed.start.avg)), Math.round(mphToBeaufort(windspeed.end.avg)));
-  parsedWeather.windspeed.description = capitolizeFirst(dataRange(mphToDescription(windspeed.start.avg), mphToDescription(windspeed.end.avg)));
+  parsedWeather.windspeed.description = capitalizeFirst(dataRange(mphToDescription(windspeed.start.avg), mphToDescription(windspeed.end.avg)));
   if (windspeed.start.gusts || windspeed.end.gusts) {
     parsedWeather.windspeed.mph =  parsedWeather.windspeed.mph + ` (${dataRange(Math.round(windspeed.start.gusts), Math.round(windspeed.end.gusts))}mph gusts)`;
     parsedWeather.windspeed.ms =  parsedWeather.windspeed.ms + ` (${dataRange(Math.round(mphToMs(windspeed.start.gusts)), Math.round(mphToMs(windspeed.end.gusts)))}m/s gusts)`;
@@ -146,7 +146,7 @@ export function parseWeather(times, weatherResults, parsedWeather) {
     let windspeedFilteredArr = windspeedArr.filter(entry => entry || entry === 0);
     let sortedWindspeedArr = windspeedFilteredArr.sort((a,b) => a - b);
     parsedWeather.windspeed.beaufort = dataRange(Math.round(mphToBeaufort(sortedWindspeedArr[0])), Math.round(mphToBeaufort(sortedWindspeedArr[sortedWindspeedArr.length-1])));
-    parsedWeather.windspeed.description = capitolizeFirst(dataRange(mphToDescription(sortedWindspeedArr[0]), mphToDescription(sortedWindspeedArr[sortedWindspeedArr.length-1])));
+    parsedWeather.windspeed.description = capitalizeFirst(dataRange(mphToDescription(sortedWindspeedArr[0]), mphToDescription(sortedWindspeedArr[sortedWindspeedArr.length-1])));
   }
 
   // WIND DIRECTION

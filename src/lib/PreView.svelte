@@ -102,7 +102,6 @@
     const error = (error) => {
       locateButtonText = `Allow location access to use (ERROR(${error.code}): ${error.message})`
       console.warn(`ERROR(${error.code}): ${error.message}`);
-
     }
     const success = (position) => {
       var coord = position.coords;

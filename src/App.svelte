@@ -6,7 +6,7 @@
   import WeatherDisplay from './lib/WeatherDisplay.svelte';
 
   // Helpers
-  import { capitolizeFirst, dataRange } from './helpers';
+  import { capitalizeFirst, dataRange } from './helpers';
   import dayjs from 'dayjs';
 
   // Stores

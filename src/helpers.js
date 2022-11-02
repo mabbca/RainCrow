@@ -1,4 +1,4 @@
-export const capitolizeFirst = (string) => string.charAt(0).toUpperCase() + string.slice(1)
+export const capitalizeFirst = (string) => string.charAt(0).toUpperCase() + string.slice(1)
 
 export const dataRange = (dataStart, dataEnd) => {
   const arr = [dataStart, dataEnd];
