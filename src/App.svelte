@@ -4,10 +4,12 @@
   import PreView from './lib/PreView.svelte'
   import AboutView from './lib/AboutView.svelte';
   import WeatherDisplay from './lib/WeatherDisplay.svelte';
+  import LocaleSwitcher from './lib/LocaleSwitcher.svelte';
 
   // Helpers
   import { capitalizeFirst, dataRange } from './helpers';
   import dayjs from 'dayjs';
+  import { _, setupI18n } from './services/i18n';
 
   // Stores
   import { postStatus, aboutView, preStatus, options } from './store.js';
@@ -29,6 +31,9 @@
       $aboutView = false;
     }
   }
+
+  const locale = JSON.parse(localStorage.getItem('storedLanguage')) || 'en'
+  setupI18n({ withLocale: locale });
 
 </script>
 <!-- --------START OF APP-------- -->
@@ -61,6 +66,7 @@
     </div>
     <div>
       <button on:click={toggleOptions}>Options</button>
+      <LocaleSwitcher value={locale} on:locale-changed={ e => setupI18n({ withLocale: e.detail }) }/>
     </div>
   </footer>
 </div>

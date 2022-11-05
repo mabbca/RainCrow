@@ -8,7 +8,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 dayjs.extend(customParseFormat);
 
 // API keys
-import { openWeather, visualCrossing } from './keys.json';
+import { openWeather } from './keys.json';
 
 // Helpers
 import { capitalizeFirst, dataRange } from './helpers';
