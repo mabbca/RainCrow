@@ -44,10 +44,10 @@
   </div>
   <nav>
     <div class="nav-item post-submit" on:click={()=> viewingPost = true} class:active="{viewingPost}">
-      <p>Submitted</p>
+      <p>{$_('nav.submitted')}</p>
     </div>
     <div class="nav-item pre-submit" on:click={()=> viewingPost = false} class:active="{!viewingPost}">
-      <p>Pre-Submit</p>
+      <p>{$_('nav.pre_submit')}</p>
     </div>
   </nav>
 
@@ -62,10 +62,10 @@
     <div on:click={toggleAbout}>
       <!-- <p>Weather Data provided by <a href="#">OpenWeather</a></p>
       <p>Created by <a href="#">Parker Davis</a></p> -->
-      <button class="about-button">About</button>
+      <button class="about-button">{$_('nav.about')}</button>
     </div>
     <div>
-      <button on:click={toggleOptions}>Options</button>
+      <button on:click={toggleOptions}>{$_('nav.options')}</button>
       <LocaleSwitcher value={locale} on:locale-changed={ e => setupI18n({ withLocale: e.detail }) }/>
     </div>
   </footer>

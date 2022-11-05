@@ -241,12 +241,12 @@ export function parseWeather(times, weatherResults, parsedWeather) {
   
   return parsedWeather;
 }
-export async function getWeather(times, locationObj, weatherResults) {
+export async function getWeather(times, locationObj, weatherResults, language) {
   console.log("Start time weather query for " + times.start.utcTime.local().format("YYYY-MM-DD h:mma Z"));
-  weatherResults.start = await queryOpenWeather(times.start.utcTime.format("X"), locationObj.lat, locationObj.lon);
+  weatherResults.start = await queryOpenWeather(times.start.utcTime.format("X"), locationObj.lat, locationObj.lon, language);
   if (times.end.utcTime && times.end.utcTime.format("X") != times.start.utcTime.format("X")) {
     console.log("End time weather query for " + times.end.utcTime.local().format("YYYY-MM-DD h:mma Z"));
-    weatherResults.end = await queryOpenWeather(times.end.utcTime.format("X"), locationObj.lat, locationObj.lon);
+    weatherResults.end = await queryOpenWeather(times.end.utcTime.format("X"), locationObj.lat, locationObj.lon, language);
   }
   return weatherResults;
 }
@@ -357,10 +357,10 @@ function extractChecklistId(checklistId) {
   let extractedId = checklistId.trim().match(checklistRegex);
   return extractedId[0];
 }
-export async function queryOpenWeather(unixTime, lat, lon) {
+export async function queryOpenWeather(unixTime, lat, lon, lang) {
   //submit OpenWeather query at time and location
   const baseUrl = 'https://api.openweathermap.org/data/3.0/onecall/timemachine';
-  const queries = `?lat=${lat}&lon=${lon}&dt=${unixTime}&appid=${openWeather}&units=imperial`;
+  const queries = `?lat=${lat}&lon=${lon}&lang=${lang}&dt=${unixTime}&appid=${openWeather}&units=imperial`;
   // const queries = `?lat=${lat}&lon=${lon}&dt=error&appid=${openWeather}&units=imperial`; // trigger errors for debug
   try {
     const response = await fetch(baseUrl + queries)

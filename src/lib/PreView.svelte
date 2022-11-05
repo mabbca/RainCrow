@@ -1,5 +1,5 @@
 <script>
-  //DayJS
+  // DayJS
   import dayjs from 'dayjs'
 
   // Components
@@ -9,34 +9,37 @@
   import { getTimezoneOffset, getUnixTimes, getWeather, parseWeather } from '../weatherFunctions';
  
   // Stores
-  import { preParsedWeather, preStatus, preWeatherCopy} from '../store';
+  import { preParsedWeather, preStatus, preWeatherCopy, options } from '../store';
+
+  // Services
+  import { _ } from '../services/i18n';
 
   //Clipboard stuff, move elsewhere
   let weatherCopy = '';
-  let copyButtonText = 'Copy to clipboard'
+  let copyButtonText = $_('clipboard.copy')
   let copyButtonDisabled = false;
   $: if($preStatus === 'loading') {
     copyButtonDisabled = false;
-    copyButtonText = 'Copy to clipboard'
+    copyButtonText = $_('clipboard.copy')
   }
   const copyToClipboard = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText($preWeatherCopy).then(
         function () {
-          copyButtonText = "Copied!";
+          copyButtonText = $_('clipboard.copied');
           copyButtonDisabled = true;
           setTimeout(()=> {
-            copyButtonText="Copy to clipboard"
+            copyButtonText= $_('clipboard.copy');
             copyButtonDisabled = false;
           }, 3000);
         },
         function (err) {
-          copyButtonText = "Error! " + err;
+          copyButtonText = $_('clipboard.error');
           copyButtonDisabled = true;
         }
       );
     } else {
-      copyButtonText = "Browser do not support Clipboard API";
+      copyButtonText = $_('clipboard.browser_error');
       copyButtonDisabled = true;
     }
   } 
@@ -90,7 +93,7 @@
   startTime = currentDateTime.startOf('hour').format('HH:mm');
 
   // GEOLOCATION
-  let locateButtonText = "Locate";
+  let locateButtonText = $_('pre_submit.locate');
   let latLon = '';
   const handleLocate = (event) => {
     event.preventDefault();
@@ -100,13 +103,13 @@
       maximumAge: 1800000
     };
     const error = (error) => {
-      locateButtonText = `Allow location access to use (ERROR(${error.code}): ${error.message})`
+      locateButtonText = $_('pre_submit.locate_error', { values: { errorCode: error.code, errorMessage: error.message }});
       console.warn(`ERROR(${error.code}): ${error.message}`);
     }
     const success = (position) => {
       var coord = position.coords;
       console.log('Your current position is:');
-      console.log(`Latitude : ${coord.latitude}`);
+      console.log(`Latitude: ${coord.latitude}`);
       console.log(`Longitude: ${coord.longitude}`);
       console.log(`More or less ${coord.accuracy} meters.`);
       console.log(position);
@@ -118,9 +121,8 @@
   // latLon Parser 
   const getLatLon = () => {
     let commaIndex = latLon.indexOf(',');
-    const parenRegex = /(\(|\))/g; //remove parenthesis
-    location.lat = latLon.slice(0, commaIndex).trim().replace(parenRegex, '');
-    location.lon = latLon.slice(commaIndex + 1).trim().replace(parenRegex, '');
+    location.lat = latLon.slice(0, commaIndex).trim();
+    location.lon = latLon.slice(commaIndex + 1).trim();
   }
 
   // Location Obj
@@ -157,7 +159,7 @@
     try {
       times = await getTimezoneOffset(times, location);
       times = getUnixTimes(times);
-      weatherResults = await getWeather(times, location, weatherResults)
+      weatherResults = await getWeather(times, location, weatherResults, $options.language)
     }catch(error) {
       $preStatus = 'error';
       errorText = error;
@@ -230,7 +232,7 @@
 <div class="ui-container">
     <div class="full-width top-ui">
         <label for="latlon">
-            Location <small>(Latitude, Longitude)</small>
+          {$_('pre_submit.location')} <small>({$_('pre_submit.latitude')}, {$_('pre_submit.longitude')})</small>
         </label>
       <br />
       <input 
@@ -241,14 +243,14 @@
         class:error={latlonError}
         />
       {#if latlonError}
-      <span class="error-message">Please enter valid decimal degree coordinates.</span>
+      <span class="error-message">{$_('pre_submit.coordinates_error')}</span>
       {/if}
     </div>
     
     <button class="preView-button locate" on:click={handleLocate}>{locateButtonText}</button>
 
     <div class="date-input full-width">
-      <label for="date">Date</label>
+      <label for="date">{$_('pre_submit.date')}</label>
       <br />
       <input 
         type="date" 
@@ -259,11 +261,11 @@
         class:error={dateError}
         />
         {#if dateError}
-        <span class="error-message">Enter valid date in format: YYYY-MM-DD</span>
+        <span class="error-message">{$_('pre_submit.date_error')}</span>
         {/if}
     </div>
     <div class="left">
-      <label for="startTime">Start Time</label>
+      <label for="startTime">{$_('pre_submit.start_time')}</label>
       <br />
       <input 
         type="time" 
@@ -274,11 +276,11 @@
         class:error={startTimeError}
         />
         {#if startTimeError}
-        <span class="error-message">Enter valid start time in 24hr format: HH:MM</span>
+        <span class="error-message">{$_('pre_submit.start_time_error')}</span>
         {/if}
     </div>
     <div class="right">
-      <label for="duration">Duration <small>(minutes)</small></label>
+      <label for="duration">{$_('pre_submit.duration')} <small>({$_('pre_submit.minutes')})</small></label>
       <br />
       <input 
         type="number" 
@@ -291,11 +293,11 @@
         class:error={durationError}
         />
         {#if durationError}
-        <span class="error-message">Enter valid number of minutes greater than or equal to 0</span>
+        <span class="error-message">{$_('pre_submit.duration_error')}</span>
         {/if}
     </div>
     
-    <button class="preView-button" type="submit" on:click={handleGetWeather} disabled={!formIsValid}>Get Weather</button>
+    <button class="preView-button" type="submit" on:click={handleGetWeather} disabled={!formIsValid}>{$_('pre_submit.get_weather')}</button>
 
     <div class="full-width">
       <div class="weather-center weatherDisp">
@@ -303,9 +305,9 @@
           {#if $preStatus === 'init'}
             <!-- <p>Enter location, date, time, and duration and click "Get Weather"</p> -->
             <!-- <br> -->
-            <p>Location services must be enabled to use "Locate" button.</p> 
+            <p>{$_('pre_submit.location_service_error')}</p> 
           {:else if $preStatus === 'loading'}
-            Loading...
+            {$_('global.loading')}
           {:else if $preStatus === 'error'}
             {errorText}
           {:else if $preStatus === 'show'}
