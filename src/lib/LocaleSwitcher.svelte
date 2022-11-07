@@ -12,12 +12,10 @@
 </script>
 
 <div class="choose-locale">
-    <div class="select"> 
-        <select value={value} on:change={switchLocale}>
-            <option value="en">English</option>
-            <option value="fr">Français</option>
-        </select>
-    </div>
+  <select value={value} on:change={switchLocale}>
+    <option value="en">English</option>
+    <option value="fr">Français</option>
+  </select>
 </div>
 
 <style>
@@ -25,7 +23,9 @@
       display: flex;
       justify-content: center;
     }
-    .select {
-      margin: 0 1rem 1rem;
+    select {
+      height: 2.5rem;
+      border-radius: 5px;
+      padding: 4px;
     }
 </style>

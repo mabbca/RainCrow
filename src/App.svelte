@@ -64,7 +64,7 @@
       <p>Created by <a href="#">Parker Davis</a></p> -->
       <button class="about-button">{$_('nav.about')}</button>
     </div>
-    <div>
+    <div class="footer-right">
       <button on:click={toggleOptions}>{$_('nav.options')}</button>
       <LocaleSwitcher value={locale} on:locale-changed={ e => setupI18n({ withLocale: e.detail }) }/>
     </div>
@@ -200,14 +200,19 @@
     margin: 1rem;
   }
   footer button {
-    background-color: whitesmoke;
+    background-color: rgba(100,108,255, 0.2);
     color: black;
-    border: 1px black solid;
+    border: 1px #858585 solid;
+    padding: 6px;
     cursor: pointer;
     margin: 1rem;
   }
   footer button:hover {
-    background-color: lightgray;
+    background-color: rgba(100,108,255, 0.3);
+  }
+  footer .footer-right {
+    display: flex;
+    align-items: center;
   }
   .options-container {
     background-color: white;
