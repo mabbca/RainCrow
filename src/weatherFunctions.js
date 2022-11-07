@@ -424,7 +424,7 @@ function mphToDescription(mph) {
   } else if (mph > 1 && mph <= 3) {
     return get(_)("weather.wind_description.mostly_calm");
   } else if (mph > 3 && mph <= 7) {
-    return get(_)("weather.windlight_breeze");
+    return get(_)("weather.wind_description.light_breeze");
   } else if (mph > 7 && mph <= 12) {
     return get(_)("weather.wind_description.gentle_breeze");
   } else if (mph > 12 && mph <= 18) {

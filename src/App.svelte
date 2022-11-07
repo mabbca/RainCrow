@@ -91,19 +91,19 @@
     <div class="options-list">
       <div class="option-item">
         <input type="checkbox" name="icon" id="icon" bind:checked={$options.icon}>
-        <label for="icon">Weather Icons</label>
+        <label for="icon">{$_('options.weather_icon')}</label>
         <select name="icon-type" id="icon-type" bind:value={$options.iconType}>
           <option value="open">OpenWeather</option>
-          <option value="emoji">Emoji</option>
+          <option value="emoji">{$_('options.emoji')}</option>
         </select>
       </div>
       <div class="option-item">
         <input type="checkbox" name="conditions" id="conditions" bind:checked={$options.conditions}>
-        <label for="conditions">Conditions</label>
+        <label for="conditions">{$_('options.conditions')}</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="temperature" id="temperature" bind:checked={$options.temperature}>
-        <label for="temperature">Temperature</label>
+        <label for="temperature">{$_('options.temperature')}</label>
         <select name="temp-unit" id="temp-unit" bind:value={$options.temperatureUnit}>
           <option value="f">F°</option>
           <option value="c">C°</option>
@@ -111,10 +111,10 @@
       </div>
       <div class="option-item">
         <input type="checkbox" name="windspeed" id="windspeed" bind:checked={$options.windspeed}>
-        <label for="windspeed">Windspeed</label>
+        <label for="windspeed">{$_('options.windspeed')}</label>
         <select name="wind-unit" id="wind-unit" bind:value={$options.windUnit}>
-          <option value="description">Description</option>
-          <option value="beaufort">Beaufort Scale</option>
+          <option value="description">{$_('options.windspeed_description')}</option>
+          <option value="beaufort">{$_('options.windspeed_beaufort_scale')}</option>
           <option value="mph">mph</option>
           <option value="kmh">km/h</option>
           <option value="ms">m/s</option>
@@ -122,7 +122,7 @@
       </div>
       <div class="option-item">
         <input type="checkbox" name="windDirection" id="windDirection" bind:checked={$options.windDirection}>
-        <label for="windDirection">Wind Direction</label>
+        <label for="windDirection">{$_('options.wind_direction')}</label>
         <!-- <select name="windDirectionType" id="windDirectionType" bind:value={$options.windDirectionType}>
           <option value="arrow">Arrow</option>
           <option value="text">Text</option>
@@ -130,29 +130,29 @@
       </div>
       <div class="option-item">
         <input type="checkbox" name="cloudCover" id="cloudCover" bind:checked={$options.cloudCover}>
-        <label for="cloudCover">Cloud Cover (%)</label>
+        <label for="cloudCover">{$_('options.cloud_cover')} (%)</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="humidity" id="humidity" bind:checked={$options.humidity}>
-        <label for="humidity">Humidity (%)</label>
+        <label for="humidity">{$_('options.humidity')} (%)</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="sunrise" id="sunrise" bind:checked={$options.sunrise}>
-        <label for="sunrise">Sunrise</label>
+        <label for="sunrise">{$_('options.sunrise')}</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="sunset" id="sunset" bind:checked={$options.sunset}>
-        <label for="sunset">Sunset</label>
+        <label for="sunset">{$_('options.sunset')}</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="attr" id="attr" bind:checked={$options.attr}>
-        <label for="attr">Include Link</label>
+        <label for="attr">{$_('options.include_link')}</label>
       </div>
     </div>
   </div>
 
   <div class="options-bottom">
-    <button on:click={toggleOptions} class="done-button">DONE</button>
+    <button on:click={toggleOptions} class="done-button">{$_('global.done').toUpperCase()}</button>
   </div>
 </div>
 {/if}

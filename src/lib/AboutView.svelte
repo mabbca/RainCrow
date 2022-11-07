@@ -57,7 +57,7 @@
 
  
     <div class="center">
-        <button on:click={()=> $aboutView = false} class="uppercase">{$_('global.close')}</button>
+        <button on:click={()=> $aboutView = false} >{$_('global.close').toUpperCase()}</button>
     </div>
 </div>
 
@@ -80,9 +80,6 @@
     }
     button {
         width: 200px;
-    }
-    button.uppercase {
-        text-transform: uppercase;
     }
     section {
         margin-top: 2rem;

@@ -151,7 +151,7 @@
     {/if}
 
     {#if $options.attr}
-    {@html $_('weather.generated_by')}: 
+      {@html $_('weather.generated_by')} 
     {/if}
 
     

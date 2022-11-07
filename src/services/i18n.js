@@ -9,7 +9,8 @@ function setupI18n({
         en: {
             "global": {
                 "loading": "Loading...",
-                "close": "Close"
+                "close": "Close",
+                "done": "Done"
             },
             "nav": {
                 "options": "Options",
@@ -117,12 +118,28 @@ function setupI18n({
                 "humidity": "Humidity",
                 "sunrise": "Sunrise",
                 "sunset": "Sunset",
+            },
+            "options": {
+                "weather_icon": "Weather Icons",
+                "emoji": "Emoji",
+                "conditions": "Conditions",
+                "temperature": "Temperature",
+                "windspeed": "Windspeed",
+                "windspeed_description": "Description",
+                "windspeed_beaufort_scale": "Beaufort Scale",
+                "wind_direction": "Wind Direction",
+                "cloud_cover": "Cloud Cover",
+                "humidity": "Humidity",
+                "sunrise": "Sunrise",
+                "sunset": "Sunset",
+                "include_link": "Include Link"
             }
         },
         fr: {
             "global": {
                 "loading": "Chargement...",
-                "close": "Fermer"
+                "close": "Fermer",
+                "done": "Terminé"
             },
             "nav": {
                 "options": "Options",
@@ -231,6 +248,21 @@ function setupI18n({
                 "humidity": "Humidité",
                 "sunrise": "Lever du soleil",
                 "sunset": "Coucher du soleil",
+            },
+            "options": {
+                "weather_icon": "Icônes météo",
+                "emoji": "Émoji",
+                "conditions": "Conditions",
+                "temperature": "Température",
+                "windspeed": "Vitesse du vent",
+                "windspeed_description": "Description",
+                "windspeed_beaufort_scale": "Échelle de Beaufort",
+                "wind_direction": "Direction du vent",
+                "cloud_cover": "Couverture nuageuse",
+                "humidity": "Humidité",
+                "sunrise": "Lever du soleil",
+                "sunset": "Coucher du soleil",
+                "include_link": "Inclure le lien"
             }
         },
     });
