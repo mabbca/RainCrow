@@ -4,13 +4,15 @@
   import PreView from './lib/PreView.svelte'
   import AboutView from './lib/AboutView.svelte';
   import WeatherDisplay from './lib/WeatherDisplay.svelte';
+  import LocaleSwitcher from './lib/LocaleSwitcher.svelte';
 
   // Helpers
   import { capitalizeFirst, dataRange } from './helpers';
   import dayjs from 'dayjs';
+  import { _, setupI18n } from './services/i18n';
 
   // Stores
-  import { postStatus, aboutView, preStatus, options } from './store.js';
+  import { postStatus, aboutView, preStatus, options, language } from './store.js';
 
   // State
   let viewingPost = true;
@@ -30,6 +32,9 @@
     }
   }
 
+  const locale = $language || 'en'
+  setupI18n({ withLocale: locale });
+
 </script>
 <!-- --------START OF APP-------- -->
 <svelte:window on:keydown={menuEsc}/>
@@ -39,10 +44,10 @@
   </div>
   <nav>
     <div class="nav-item post-submit" on:click={()=> viewingPost = true} class:active="{viewingPost}">
-      <p>Submitted</p>
+      <p>{$_('nav.submitted')}</p>
     </div>
     <div class="nav-item pre-submit" on:click={()=> viewingPost = false} class:active="{!viewingPost}">
-      <p>Pre-Submit</p>
+      <p>{$_('nav.pre_submit')}</p>
     </div>
   </nav>
 
@@ -57,10 +62,11 @@
     <div on:click={toggleAbout}>
       <!-- <p>Weather Data provided by <a href="#">OpenWeather</a></p>
       <p>Created by <a href="#">Parker Davis</a></p> -->
-      <button class="about-button">About</button>
+      <button class="about-button">{$_('nav.about')}</button>
     </div>
-    <div>
-      <button on:click={toggleOptions}>Options</button>
+    <div class="footer-right">
+      <button on:click={toggleOptions}>{$_('nav.options')}</button>
+      <LocaleSwitcher value={locale} on:locale-changed={ e => setupI18n({ withLocale: e.detail }) }/>
     </div>
   </footer>
 </div>
@@ -85,19 +91,19 @@
     <div class="options-list">
       <div class="option-item">
         <input type="checkbox" name="icon" id="icon" bind:checked={$options.icon}>
-        <label for="icon">Weather Icons</label>
+        <label for="icon">{$_('options.weather_icon')}</label>
         <select name="icon-type" id="icon-type" bind:value={$options.iconType}>
           <option value="open">OpenWeather</option>
-          <option value="emoji">Emoji</option>
+          <option value="emoji">{$_('options.emoji')}</option>
         </select>
       </div>
       <div class="option-item">
         <input type="checkbox" name="conditions" id="conditions" bind:checked={$options.conditions}>
-        <label for="conditions">Conditions</label>
+        <label for="conditions">{$_('options.conditions')}</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="temperature" id="temperature" bind:checked={$options.temperature}>
-        <label for="temperature">Temperature</label>
+        <label for="temperature">{$_('options.temperature')}</label>
         <select name="temp-unit" id="temp-unit" bind:value={$options.temperatureUnit}>
           <option value="f">F°</option>
           <option value="c">C°</option>
@@ -105,10 +111,10 @@
       </div>
       <div class="option-item">
         <input type="checkbox" name="windspeed" id="windspeed" bind:checked={$options.windspeed}>
-        <label for="windspeed">Windspeed</label>
+        <label for="windspeed">{$_('options.windspeed')}</label>
         <select name="wind-unit" id="wind-unit" bind:value={$options.windUnit}>
-          <option value="description">Description</option>
-          <option value="beaufort">Beaufort Scale</option>
+          <option value="description">{$_('options.windspeed_description')}</option>
+          <option value="beaufort">{$_('options.windspeed_beaufort_scale')}</option>
           <option value="mph">mph</option>
           <option value="kmh">km/h</option>
           <option value="ms">m/s</option>
@@ -116,7 +122,7 @@
       </div>
       <div class="option-item">
         <input type="checkbox" name="windDirection" id="windDirection" bind:checked={$options.windDirection}>
-        <label for="windDirection">Wind Direction</label>
+        <label for="windDirection">{$_('options.wind_direction')}</label>
         <!-- <select name="windDirectionType" id="windDirectionType" bind:value={$options.windDirectionType}>
           <option value="arrow">Arrow</option>
           <option value="text">Text</option>
@@ -124,29 +130,29 @@
       </div>
       <div class="option-item">
         <input type="checkbox" name="cloudCover" id="cloudCover" bind:checked={$options.cloudCover}>
-        <label for="cloudCover">Cloud Cover (%)</label>
+        <label for="cloudCover">{$_('options.cloud_cover')} (%)</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="humidity" id="humidity" bind:checked={$options.humidity}>
-        <label for="humidity">Humidity (%)</label>
+        <label for="humidity">{$_('options.humidity')} (%)</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="sunrise" id="sunrise" bind:checked={$options.sunrise}>
-        <label for="sunrise">Sunrise</label>
+        <label for="sunrise">{$_('options.sunrise')}</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="sunset" id="sunset" bind:checked={$options.sunset}>
-        <label for="sunset">Sunset</label>
+        <label for="sunset">{$_('options.sunset')}</label>
       </div>
       <div class="option-item">
         <input type="checkbox" name="attr" id="attr" bind:checked={$options.attr}>
-        <label for="attr">Include Link</label>
+        <label for="attr">{$_('options.include_link')}</label>
       </div>
     </div>
   </div>
 
   <div class="options-bottom">
-    <button on:click={toggleOptions} class="done-button">DONE</button>
+    <button on:click={toggleOptions} class="done-button">{$_('global.done').toUpperCase()}</button>
   </div>
 </div>
 {/if}
@@ -194,14 +200,19 @@
     margin: 1rem;
   }
   footer button {
-    background-color: whitesmoke;
+    background-color: rgba(100,108,255, 0.2);
     color: black;
-    border: 1px black solid;
+    border: 1px #858585 solid;
+    padding: 6px;
     cursor: pointer;
     margin: 1rem;
   }
   footer button:hover {
-    background-color: lightgray;
+    background-color: rgba(100,108,255, 0.3);
+  }
+  footer .footer-right {
+    display: flex;
+    align-items: center;
   }
   .options-container {
     background-color: white;

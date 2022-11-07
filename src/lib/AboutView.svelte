@@ -1,64 +1,63 @@
 <script>
     import { aboutView } from "../store";
     import openweatherLogo from '/src/assets/openweatherlogo-light.jpg'
+    import { _ } from '../services/i18n';
 </script>
 
 <div class="about-container">
     <div class="menu-exit" on:click={()=> $aboutView = false}>🆇</div>
-    <h2>Welcome to RainCrow! 🌦</h2>
-    <p class="attr">Created by <a href="https://parkerdavis.dev/" target="_blank">Parker Davis</a></p>
+    <h2>{$_('about.welcome')}! 🌦</h2>
+    <p class="attr">{$_('about.created_by')} <a href="https://parkerdavis.dev/" target="_blank">Parker Davis</a></p>
 
-    <p>This web app was created for the quick retrieval of historical weather observations for <a href="https://ebird.org/about" target="_blank">eBird</a> checklists.</p>
+    <p>{@html $_('about.app_purpose')}</p>
 
     <section>
-        <h3>Submitted</h3>
-        <p>Use for checklists that have already been submitted to eBird. Just enter the Checklist ID (or the entire URL) and click <span>Get Weather</span>.</p>
+        <h3>{$_('about.submitted.title')}</h3>
+        <p>{@html $_('about.submitted.text')}</p>
     </section>
 
     <section>
-        <h3>Pre-Submit</h3>
-        <p>Use before a checklist is submitted. This is especially useful for including weather in shared checklists.</p>
+        <h3>{$_('about.pre_submit.title')}</h3>
+        <p>{$_('about.pre_submit.text')}</p>
         <details>
-            <summary>
-                <span>Locate</span> not working?
-            </summary>
+            <summary>{@html $_('about.pre_submit.troubleshoot_title')}</summary>
             <ul>
-                <li>Check that location services are enabled.</li>
-                <li>Make sure you allow access to your location.</li>
-                <li>If clicking <span>Locate</span> does not prompt you to allow location access, try toggling the location preference off then on again.</li>
-                <li>For iPhone the setting is found under Settings > Privacy > Location Services > (Browser of Choice) > Allow Location Access</li>
+                <li>{$_('about.pre_submit.enable_location_service')}</li>
+                <li>{$_('about.pre_submit.allow_location_access')}</li>
+                <li>{@html $_('about.pre_submit.toggle_location_preference')}</li>
+                <li>{@html $_('about.pre_submit.iphone_users')}</li>
             </ul>
         </details>
     </section>
 
     <section>
-        <h3>Options</h3>
-        <p>The options menu allows you to select the weather data you want to include.</p>
-        <p>In order for <strong>OpenWeather Icons</strong> and <strong>Include Link</strong> options to show up on your eBird checklist, you must include &lt;HTML tags&gt; to embed the images or create the link. You don't need to worry about doing this yourself, the code is included when you click <span class="copy">Copy to Clipboard</span>. The images and link will display normally once you submit the copied code to your checklist comments.</p>
+        <h3>{$_('about.options.title')}</h3>
+        <p>{$_('about.options.text')}</p>
+        <p>{@html $_('about.options.icon_and_links')}</p>
     </section>
 
     <section>
-        <h3>Weather Data</h3>
+        <h3>{$_('about.weather_data.title')}</h3>
         <img src="{openweatherLogo}" alt="OpenWeather Logo" loading="lazy" />
-        <p>Weather data provided by <a href="https://openweathermap.org/" target="_blank">OpenWeather</a>.</p>
-        <p>Weather data is gathered for both the start and end times of a checklist and automatically displayed as a range.</p>
-        <p>There are limitations to the accuracy of any weather API. If you are gathering weather data for a location that is near a weather station it should work just fine. If the location is a remote area with unique microclimate (deep canyons, mountain peaks, open ocean etc.) results will have more room for error. Use at your own discretion!</p>
+        <p>{@html $_('about.weather_data.provided_by')}</p>
+        <p>{$_('about.weather_data.range_format')}</p>
+        <p>{$_('about.weather_data.limitations')}</p>
     </section>
 
     <section>
         <details>
-        <summary><strong>429 Error?</strong></summary>
-        <p>If you get a error with code 429, it means that I've reached my limit of free OpenWeather API calls for the day. I'm working on a solution for this. Sorry, try again tomorrow!</p>
+        <summary><strong>{$_('about.error_429.title')}</strong></summary>
+        <p>{$_('about.error_429.text')}</p>
         </details>
     </section>
 
     <section>
-        <p>If you have any comments, suggestions, bugs, feel free to email me at <a href="mailto:parker@birdsmakesound.com">parker@birdsmakesound.com</a>!</p>
+        <p>{@html $_('about.email_me')}</p>
     </section>
 
  
     <div class="center">
-        <button on:click={()=> $aboutView = false}>CLOSE</button>
+        <button on:click={()=> $aboutView = false} >{$_('global.close').toUpperCase()}</button>
     </div>
 </div>
 
@@ -100,14 +99,16 @@
     summary {
         cursor: pointer;
     }
-    span {
-        background: #409100;
+    :global(span.highlight),
+    :global(span.copy) {
         color: white;
         padding: 3px 6px;
         border-radius: 5px;
     }
-    .copy {
+    :global(span.highlight) {
+        background: #409100;
+    }
+    :global(span.copy) {
         background: #4A96D9;
-
     }
 </style>

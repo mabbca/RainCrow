@@ -2,42 +2,45 @@
   // Dayjs
   import dayjs from 'dayjs';
 
-  //Component
+  // Component
   import WeatherDisplay from './WeatherDisplay.svelte'
   import WeatherCopy from './WeatherCopy.svelte';
 
-  //Stores
-  import { postParsedWeather, postStatus, postWeatherCopy} from '../store';
+  // Stores
+  import { postParsedWeather, postStatus, postWeatherCopy, language } from '../store';
 
   // Weather Functions
   import { parseWeather, getWeather, getUnixTimes, getTimezoneOffset, getChecklistInfo } from '../weatherFunctions';
 
+  // Services
+  import { _ } from '../services/i18n';
+
   //Clipboard stuff, move elsewhere
   let weatherCopy = '';
-  let copyButtonText = 'Copy to clipboard'
+  let copyButtonText = $_('clipboard.copy')
   let copyButtonDisabled = false;
   $: if($postStatus === 'loading') {
     copyButtonDisabled = false;
-    copyButtonText = 'Copy to clipboard'
+    copyButtonText = $_('clipboard.copy')
   }
   const copyToClipboard = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText($postWeatherCopy).then(
         function () {
-          copyButtonText = "Copied!";
+          copyButtonText = $_('clipboard.copied');
           copyButtonDisabled = true;
           setTimeout(()=> {
-            copyButtonText="Copy to clipboard"
+            copyButtonText = $_('clipboard.copy')
             copyButtonDisabled = false;
           }, 3000);
         },
         function (err) {
-          copyButtonText = "Error!";
+          copyButtonText = $_('clipboard.error');
           copyButtonDisabled = true;
         }
       );
     } else {
-      copyButtonText = "Browser do not support Clipboard API";
+      copyButtonText = $_('clipboard.browser_error')
       copyButtonDisabled = true;
     }
   } 
@@ -89,7 +92,7 @@
 
   let errorTextOptions = [
     // "That doesn't seem like a real Checklist ID...",
-    "Please enter a valid Checklist ID",
+    $_("invalid_checlist_id"),
     // "Try again there, bud. eBird didn't like that input.",
   ]
   let errorText;
@@ -125,18 +128,18 @@
       // Historical Checklists Error
         if(checklistInfo.obsTimeValid === false) {
           $postStatus = 'error';
-          errorText = "Historical checklists not supported. Need valid time to get weather data.";
+          errorText = $_('submitted.historical_checklist_error');
           return;
         }
         if(dayjs(times.start.localTime).get('year') < 1979) {
           $postStatus = 'error';
-          errorText="Dates before Jan 1, 1979 not supported by OpenWeather API."
+          errorText = $_('submitted.too_old_checklist_error')
           return;
         }
       try {
         times = await getTimezoneOffset(times, checklistInfo);
         times  = getUnixTimes(times);
-        weatherResults = await getWeather(times, checklistInfo, weatherResults);
+        weatherResults = await getWeather(times, checklistInfo, weatherResults, $language);
       } catch(error) {
         $postStatus = 'error';
         errorText = error;
@@ -158,7 +161,7 @@
 
 <div class="ui-container">
     <div id="checklistInputForm" class="full-width top-ui">
-      <label for="checklistID">Checklist ID:</label><br />
+      <label for="checklistID">{$_('submitted.checklist_id')}:</label><br />
       <input
         type="text"
         name="checklistID"
@@ -176,7 +179,7 @@
       on:click={getWeatherHandler}
       disabled={!isChecklistId}
     > 
-      Get Weather
+      {$_('submitted.get_weather')}
     </button>
 
     <div class="checklist-info full-width">
@@ -189,9 +192,9 @@
       <div class="weather-center weatherDisp">
         <div>
           {#if $postStatus === 'init'}
-            <p>Enter an eBird Checklist ID and click "Get Weather"</p>
+            <p>{$_('submitted.help')}</p>
           {:else if $postStatus === 'loading'}
-            <div class="loading-text">Loading...</div>
+            <div class="loading-text">{$_('global.loading')}</div>
           {:else if $postStatus === 'error'}
             {errorText}
           {:else if $postStatus === 'show'}
