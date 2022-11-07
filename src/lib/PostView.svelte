@@ -7,7 +7,7 @@
   import WeatherCopy from './WeatherCopy.svelte';
 
   // Stores
-  import { postParsedWeather, postStatus, postWeatherCopy, options } from '../store';
+  import { postParsedWeather, postStatus, postWeatherCopy, language } from '../store';
 
   // Weather Functions
   import { parseWeather, getWeather, getUnixTimes, getTimezoneOffset, getChecklistInfo } from '../weatherFunctions';
@@ -139,7 +139,7 @@
       try {
         times = await getTimezoneOffset(times, checklistInfo);
         times  = getUnixTimes(times);
-        weatherResults = await getWeather(times, checklistInfo, weatherResults, $options.language);
+        weatherResults = await getWeather(times, checklistInfo, weatherResults, $language);
       } catch(error) {
         $postStatus = 'error';
         errorText = error;

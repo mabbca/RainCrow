@@ -12,7 +12,7 @@
   import { _, setupI18n } from './services/i18n';
 
   // Stores
-  import { postStatus, aboutView, preStatus, options } from './store.js';
+  import { postStatus, aboutView, preStatus, options, language } from './store.js';
 
   // State
   let viewingPost = true;
@@ -32,7 +32,7 @@
     }
   }
 
-  const locale = JSON.parse(localStorage.getItem('storedLanguage')) || 'en'
+  const locale = $language || 'en'
   setupI18n({ withLocale: locale });
 
 </script>

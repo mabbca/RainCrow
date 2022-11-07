@@ -9,7 +9,7 @@
   import { getTimezoneOffset, getUnixTimes, getWeather, parseWeather } from '../weatherFunctions';
  
   // Stores
-  import { preParsedWeather, preStatus, preWeatherCopy, options } from '../store';
+  import { preParsedWeather, preStatus, preWeatherCopy, language } from '../store';
 
   // Services
   import { _ } from '../services/i18n';
@@ -159,7 +159,7 @@
     try {
       times = await getTimezoneOffset(times, location);
       times = getUnixTimes(times);
-      weatherResults = await getWeather(times, location, weatherResults, $options.language)
+      weatherResults = await getWeather(times, location, weatherResults, $language)
     }catch(error) {
       $preStatus = 'error';
       errorText = error;

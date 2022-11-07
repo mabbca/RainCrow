@@ -18,13 +18,13 @@ let defaultOptions = {
     attr: true,
 }
 // Get user option preferences from local store, if no local store use default options
-export const options = writable(JSON.parse(localStorage.getItem('storedOptions'))||defaultOptions);
+export const options = writable(JSON.parse(localStorage.getItem('storedOptions')) || defaultOptions);
 // When options change, change the local store
 options.subscribe((value) => localStorage.storedOptions = JSON.stringify(value));
- 
 
-
-
+let defaultLanguage = 'en';
+export const language = writable(JSON.parse(localStorage.getItem('storedLanguage')) || defaultLanguage);
+language.subscribe((value) => localStorage.storedLanguage = JSON.stringify(value));
 
 export let postParsedWeather = writable(
     { 
