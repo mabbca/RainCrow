@@ -31,9 +31,7 @@
       $aboutView = false;
     }
   }
-
-  const locale = $language || 'en'
-  setupI18n({ withLocale: locale });
+  $: setupI18n({ withLocale: $language });
 
 </script>
 <!-- --------START OF APP-------- -->
@@ -66,7 +64,7 @@
     </div>
     <div class="footer-right">
       <button on:click={toggleOptions}>{$_('nav.options')}</button>
-      <LocaleSwitcher value={locale} on:locale-changed={ e => setupI18n({ withLocale: e.detail }) }/>
+      <LocaleSwitcher value={$language}/>
     </div>
   </footer>
 </div>

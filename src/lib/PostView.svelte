@@ -19,6 +19,13 @@
   let weatherCopy = '';
   let copyButtonText = $_('clipboard.copy')
   let copyButtonDisabled = false;
+
+  $: {
+    if (isChecklistId && $language) {
+      getWeatherHandler()
+    }
+  }
+
   $: if($postStatus === 'loading') {
     copyButtonDisabled = false;
     copyButtonText = $_('clipboard.copy')
