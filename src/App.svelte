@@ -33,6 +33,20 @@
   }
   $: setupI18n({ withLocale: $language });
 
+  const handlePostClick = () => {
+    viewingPost = true;
+    if ($preStatus === 'error') {
+      $preStatus = 'init';
+    }
+  }
+
+  const handlePreClick = () => {
+    viewingPost = false;
+    if ($postStatus === 'error') {
+      $postStatus = 'init';
+    }
+  }
+
 </script>
 <!-- --------START OF APP-------- -->
 <svelte:window on:keydown={menuEsc}/>
@@ -41,10 +55,10 @@
     <h1><span class="green">Rain</span>Crow</h1>
   </div>
   <nav>
-    <div class="nav-item post-submit" on:click={()=> viewingPost = true} class:active="{viewingPost}">
+    <div class="nav-item post-submit" on:click={handlePostClick} class:active="{viewingPost}">
       <p>{$_('nav.submitted')}</p>
     </div>
-    <div class="nav-item pre-submit" on:click={()=> viewingPost = false} class:active="{!viewingPost}">
+    <div class="nav-item pre-submit" on:click={handlePreClick} class:active="{!viewingPost}">
       <p>{$_('nav.pre_submit')}</p>
     </div>
   </nav>

@@ -20,7 +20,7 @@
   let copyButtonDisabled = false;
 
   $: {
-    if (formIsValid && $language) {
+    if ($language) {
       handleGetWeather()
     }
   }
@@ -157,8 +157,12 @@
 
   // Submit & Error Handling
   let errorText;
+  $: console.log('pre-view error text change: ', errorText);
 
   const handleGetWeather = async() => {
+    if (!formIsValid) {
+      return;
+    }
     $preStatus = 'loading';
     getLatLon();
     times.start.localTime = dayjs(date + ' ' + startTime, "YYYY-MM-DD HH:mm");
